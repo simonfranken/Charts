@@ -45,9 +45,15 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.ingress.enabled -}}
           volumeMounts:
           - mountPath: "/data"
-            name: {{ include "vaultwarden.fullname" . }}-pvc
+            name: {{ include "vaultwarden.fullname" . }}-volume
+      volumes:
+        - name: {{ include "vaultwarden.fullname" . }}-volume
+          persistentVolumeClaim:
+            claimName: {{ include "vaultwarden.fullname" . }}
+      {{- end}} 
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -60,12 +66,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-  volumeClaimTemplates:
-    - metadata:
-        name: {{ include "vaultwarden.fullname" . }}-pvc
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
