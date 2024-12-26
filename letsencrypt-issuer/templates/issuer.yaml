@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "letsencrypt-issuer.fullname" . }}
+spec:
+  acme:
+    # The ACME server URL
+    server: {{ .Values.acme.server }}
+    # Email address used for ACME registration
+    email: {{ .Values.acme.email }}
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: {{ include "letsencrypt-issuer.fullname" . }}
+    # Enable the HTTP-01 challenge provider
+    solvers:
+{{ toYaml .Values.acme.solvers | indent 6 }}
