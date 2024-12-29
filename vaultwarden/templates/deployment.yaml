@@ -22,8 +22,6 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: DATABASE_URL
-              value: mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
@@ -39,6 +37,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "vaultwarden.secret.name" . }}
                   key: MYSQL_DATABASE
+            - name: DATABASE_URL
+              value: mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)
           livenessProbe:
             httpGet:
               path: /
