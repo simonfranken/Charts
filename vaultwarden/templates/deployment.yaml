@@ -58,3 +58,14 @@ spec:
             limits:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: vaultwarden-data
+              mountPath: /data
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: vaultwarden-data
+          persistentVolumeClaim:
+            claimName: {{ include "vaultwarden.fullname" . }}
+      {{- end }}

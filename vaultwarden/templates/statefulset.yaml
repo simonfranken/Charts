@@ -51,3 +51,14 @@ spec:
               port: 3306
             initialDelaySeconds: 5
             periodSeconds: 5
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: {{ include "vaultwarden.mariadb.fullname" . }}
+      {{- end }}
