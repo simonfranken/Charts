@@ -23,7 +23,7 @@ spec:
             - containerPort: 80
           env:
             - name: DATABASE_URL
-              value: "mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)"
+              value: mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
