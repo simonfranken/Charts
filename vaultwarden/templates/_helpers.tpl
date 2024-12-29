@@ -1,62 +1,30 @@
-{{/*
-Expand the name of the chart.
-*/}}
-{{- define "vaultwarden.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
+{{/* Generate a consistent fullname for resources */}}
 {{- define "vaultwarden.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-{{- end }}
+{{ .Release.Name }}-{{ .Chart.Name }}
+{{- end -}}
 
-{{/*
-Create chart name and version as used by the chart label.
-*/}}
-{{- define "vaultwarden.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-{{- end }}
+{{/* Generate a consistent name for MariaDB resources */}}
+{{- define "vaultwarden.mariadb.fullname" -}}
+{{ .Release.Name }}-mariadb
+{{- end -}}
 
-{{/*
-Common labels
-*/}}
+{{/* Standardized labels */}}
 {{- define "vaultwarden.labels" -}}
-helm.sh/chart: {{ include "vaultwarden.chart" . }}
-{{ include "vaultwarden.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
-Selector labels
-*/}}
-{{- define "vaultwarden.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "vaultwarden.name" . }}
+app.kubernetes.io/name: {{ .Chart.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
+helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+{{- end -}}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "vaultwarden.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "vaultwarden.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
+{{/* Standardized labels for MariaDB */}}
+{{- define "vaultwarden.mariadb.labels" -}}
+app.kubernetes.io/name: mariadb
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
+helm.sh/chart: mariadb-{{ .Chart.Version }}
+{{- end -}}
+
+{{/* Secret name */}}
+{{- define "vaultwarden.secret.name" -}}
+{{ .Release.Name }}-db-secret
+{{- end -}}
