@@ -1,9 +1,12 @@
 replicaCount: 1
 
-image:
-  repository: vaultwarden/server
-  tag: latest
-  pullPolicy: IfNotPresent
+vaultwarden:
+  image:
+    repository: vaultwarden/server
+    tag: latest
+    pullPolicy: IfNotPresent
+  env: []
+  secrets: []
 
 mariadb:
   enabled: true

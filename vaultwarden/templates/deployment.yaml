@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: vaultwarden
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ .Values.vaultwarden.image.repository }}:{{ .Values.vaultwarden.image.tag }}
+          imagePullPolicy: {{ .Values.vaultwarden.image.pullPolicy }}
           ports:
             - containerPort: 80
           env:
@@ -39,6 +39,16 @@ spec:
                   key: MYSQL_DATABASE
             - name: DATABASE_URL
               value: mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)
+            {{- if .Values.vaultwarden.env }}
+            {{- toYaml .Values.vaultwarden.env | nindent 12 }}  
+            {{- end }}
+          {{- if .Values.vaultwarden.secrets}}
+          envFrom:
+          {{- range .Values.vaultwarden.secrets }}
+            - secretRef:
+                name: {{ . }}
+          {{- end }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /
