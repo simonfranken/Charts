@@ -11,9 +11,7 @@ mariadb:
     repository: mariadb
     tag: latest
     pullPolicy: IfNotPresent
-  database: vaultwarden
-  username: vaultwarden
-  password: auto # Generate a password automatically if set to 'auto'
+  databaseSecret: vaultwarden-db-secret
 
 ingress:
   enabled: false
