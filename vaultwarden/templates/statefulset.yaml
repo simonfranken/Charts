@@ -24,22 +24,22 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.mariadb.databaseSecret }}
+                  name: {{ include "vaultwarden.secret.name" . }}
                   key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.mariadb.databaseSecret }}
+                  name: {{ include "vaultwarden.secret.name" . }}
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.mariadb.databaseSecret }}
+                  name: {{ include "vaultwarden.secret.name" . }}
                   key: MYSQL_USER
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.mariadb.databaseSecret }}
+                  name: {{ include "vaultwarden.secret.name" . }}
                   key: MYSQL_PASSWORD
           livenessProbe:
             tcpSocket:
