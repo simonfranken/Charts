@@ -94,7 +94,7 @@ postgresql:
   global:
     postgresql:
       auth:
-        username: maybefinance
+        username: rails
         database: maybefinance
         existingSecret: "maybefinance-secret"
         secretKeys:
