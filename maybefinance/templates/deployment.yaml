@@ -62,7 +62,7 @@ spec:
                   key: DB_USER_PW
           {{- range $k, $v := .Values.maybefinance.env }}
             - name: {{ $k }}
-              value: {{ $v }}
+              value: {{ $v | quote }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
