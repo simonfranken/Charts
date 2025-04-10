@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  basic:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-10T08:52:49.045887281Z"
+    description: A basic Helm chart for Kubernetes
+    digest: 0e6a9c7586490294110850f21ec6d54f79165f7895a5903ce9669984ded89f10
+    name: basic
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/basic-0.1.1/basic-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-04-10T08:52:49.045894274Z"
