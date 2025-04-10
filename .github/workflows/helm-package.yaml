@@ -1,27 +1,27 @@
-name: Package Helm Chart
+name: Release Charts
 
 on:
   push:
     branches:
-      - main  # Adjust this branch to match your main branch
+      - main
 
 jobs:
-  package:
+  release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Helm
-        uses: azure/setup-helm@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          version: v3.11.3  # Ensure you use a stable version
+          fetch-depth: 0
 
-      - name: Package Helm Chart
-        run: helm package ./basic
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Upload Helm Chart as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: basic
-          path: *.tgz
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.6.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
