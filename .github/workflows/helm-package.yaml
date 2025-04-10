@@ -20,8 +20,8 @@ jobs:
       - name: Package Helm Chart
         run: helm package ./basic
 
-      # - name: Upload Helm Chart as Artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: basic
-      #     path: *.tgz
+      - name: Upload Helm Chart as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: basic
+          path: *.tgz
