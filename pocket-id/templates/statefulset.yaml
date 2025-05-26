@@ -65,9 +65,10 @@ spec:
       volumeMounts:
         - name: {{ include "pocket-id.fullname" . }}-data
           mountPath: /app/data
-      {{- with .Values.volumeMounts }}
-      {{- toYaml . | nindent 12 }}
-      {{- end }}
+        {{- with .Values.volumeMounts }}
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+
   volumeClaimTemplates:
     - metadata:
         name: {{ include "pocket-id.fullname" . }}-data
