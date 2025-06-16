@@ -80,6 +80,8 @@ affinity: {}
 
 additionalConfigMap: {}
 
+additionalSecret: {}
+
 persistence:
   # -- Persist data to a persistent volume
   enabled: true
