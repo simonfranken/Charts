@@ -14,6 +14,16 @@ entries:
   pocket-id:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-06-16T13:15:56.962345887Z"
+    description: A Helm chart for Kubernetes
+    digest: e2a49ba21ec00f9b3cfe17a618f063db931eda6b91c39aa66bd45f3703f49584
+    name: pocket-id
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/pocket-id-1.0.3/pocket-id-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-05-26T11:54:02.302237088Z"
     description: A Helm chart for Kubernetes
     digest: 0f9761afc3c7efe5b7609e5bd0785ea3bc4cf0bae186486ef95f70dbc7ec044d
@@ -52,4 +62,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/pocket-id-0.1.0/pocket-id-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-26T11:54:02.302256174Z"
+generated: "2025-06-16T13:15:56.962365012Z"
