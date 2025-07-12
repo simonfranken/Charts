@@ -3,6 +3,16 @@ entries:
   basic:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-07-12T14:38:46.742167506Z"
+    description: A basic Helm chart for Kubernetes
+    digest: d5cb66c0a75bfd804a503122d46cc0a22916b5cf787b3e1b57a99861f3a99a6d
+    name: basic
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/basic-0.3.0/basic-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-07-12T13:35:10.46267169Z"
     description: A basic Helm chart for Kubernetes
     digest: 7c7aba66c2d802f42aae075bf6439c3cd62ca08468d763385fba2babec61ef88
@@ -72,4 +82,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/pocket-id-0.1.0/pocket-id-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-12T13:35:10.462686918Z"
+generated: "2025-07-12T14:38:46.742202863Z"
