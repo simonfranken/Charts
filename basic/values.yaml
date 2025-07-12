@@ -88,3 +88,13 @@ affinity: {}
 volumes: []
 
 volumeMounts: []
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
