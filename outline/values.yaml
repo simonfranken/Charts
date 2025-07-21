@@ -20,8 +20,9 @@ service:
 
 # Ingress configuration for exposing Outline over HTTP/HTTPS
 ingress:
-  enabled: true # Enable or disable ingress
-  className: nginx # Ingress controller class name
+  enabled: true
+  className: nginx # Set your IngressClass here, e.g., nginx
+  annotations: {} # Optional custom annotations
   hosts:
     - host: docs.mycompany.com
       paths:
@@ -30,7 +31,7 @@ ingress:
   tls:
     - hosts:
         - docs.mycompany.com
-      secretName: docs-tls # Name of the TLS secret for Ingress
+      secretName: docs-tls
 
 # Persistent volume claim settings for Outline data
 persistence:
