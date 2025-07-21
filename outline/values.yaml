@@ -1,0 +1,59 @@
+# Image settings for Outline container
+image:
+  repository: docker.getoutline.com/outlinewiki/outline # Docker repository for Outline
+  tag: latest # Image tag/version for Outline
+  pullPolicy: IfNotPresent # Image pull policy
+
+# Outline-specific settings
+outline:
+  env:
+    # Define required environment variables for Outline below.
+    # It's recommended to override SECRET_KEY and URL for your installation!
+    SECRET_KEY: "your-long-random-secret-key"
+    URL: "https://docs.mycompany.com"
+  replicaCount: 1 # Number of Outline pod replicas
+
+# Kubernetes service configuration
+service:
+  type: ClusterIP # Service type (ClusterIP, NodePort, LoadBalancer)
+  port: 3000 # Port for accessing Outline
+
+# Ingress configuration for exposing Outline over HTTP/HTTPS
+ingress:
+  enabled: true # Enable or disable ingress
+  className: nginx # Ingress controller class name
+  hosts:
+    - host: docs.mycompany.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - docs.mycompany.com
+      secretName: docs-tls # Name of the TLS secret for Ingress
+
+# Persistent volume claim settings for Outline data
+persistence:
+  enabled: true # Enable persistent storage for Outline
+  accessModes:
+    - ReadWriteOnce # Access mode (e.g., ReadWriteOnce or ReadWriteMany)
+  storageClass: "" # Storage class; leave blank to use the cluster default
+  size: 5Gi # Size of the persistent volume for Outline data
+
+# Redis subchart configuration (Bitnami Redis Helm chart)
+redis:
+  architecture: standalone # Redis deployment architecture (standalone or replication)
+  auth:
+    enabled: false # Disable authentication for Redis (not recommended for production)
+
+# PostgreSQL subchart configuration (Bitnami PostgreSQL Helm chart)
+postgresql:
+  auth:
+    username: user # PostgreSQL username
+    password: pass # PostgreSQL password
+    database: outline # Database name for Outline
+    postgresPassword: changeme # Password for the postgres user (not used by Outline)
+  primary:
+    persistence:
+      enabled: true # Enable persistent storage for PostgreSQL
+      size: 2Gi # Size of the persistent volume for PostgreSQL
