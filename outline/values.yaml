@@ -13,6 +13,7 @@ outline:
     URL: "https://docs.mycompany.com"
     FORCE_HTTPS: "false"
   replicaCount: 1 # Number of Outline pod replicas
+  resources: {}
 
 # Kubernetes service configuration
 service:
