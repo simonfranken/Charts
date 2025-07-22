@@ -11,6 +11,7 @@ outline:
     # It's recommended to override SECRET_KEY and URL for your installation!
     SECRET_KEY: "your-long-random-secret-key"
     URL: "https://docs.mycompany.com"
+    FORCE_HTTPS: "false"
   replicaCount: 1 # Number of Outline pod replicas
 
 # Kubernetes service configuration
