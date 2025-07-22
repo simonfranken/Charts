@@ -34,6 +34,23 @@ entries:
   outline-wiki:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-07-22T12:55:27.686975772Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 21.2.12
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.7.20
+    description: A Helm chart for Outline Wiki
+    digest: 174a74b1cc71043a67d96ffa3e76a936f1b318130ea1c7419d2cbc2f4df72161
+    name: outline-wiki
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/outline-wiki-0.1.4/outline-wiki-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-07-21T20:32:01.00956075Z"
     dependencies:
     - name: redis
@@ -151,4 +168,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/pocket-id-0.1.0/pocket-id-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-21T20:32:01.009593458Z"
+generated: "2025-07-22T12:55:27.686996772Z"
