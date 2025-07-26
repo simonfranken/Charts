@@ -1,0 +1,25 @@
+{{- if .Values.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "headscale.fullname" . }}-lib
+spec:
+  accessModes: {{ toYaml .Values.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.sizeLib }}
+  storageClassName: {{ default nil .Values.persistence.storageClass }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "headscale.fullname" . }}-run
+spec:
+  accessModes: {{ toYaml .Values.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.sizeRun }}
+  storageClassName: {{ default nil .Values.persistence.storageClass }}
+{{- end }}
