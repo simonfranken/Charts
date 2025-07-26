@@ -34,6 +34,16 @@ entries:
   headscale:
   - apiVersion: v2
     appVersion: v0.26
+    created: "2025-07-26T10:34:02.855569288Z"
+    description: A Helm chart for deploying Headscale
+    digest: d8390eb29d0e793698b21306128f43e26eb3bacb944b14d84e0896552544ef07
+    name: headscale
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/headscale-0.1.1/headscale-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v0.26
     created: "2025-07-26T10:01:19.764191238Z"
     description: A Helm chart for deploying Headscale
     digest: f2fc051641bfcd40541f12513384d48072ac1c8efbed7a7f6a8d4ff27ccda0f7
@@ -196,4 +206,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/pocket-id-0.1.0/pocket-id-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-26T10:01:19.764219631Z"
+generated: "2025-07-26T10:34:02.855600759Z"
