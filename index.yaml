@@ -209,6 +209,16 @@ entries:
   tailscale-subnet-router:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-07-27T13:13:23.212071989Z"
+    description: Deploy tailscale/headscale subnet router.
+    digest: 56a9e056f1fd4a992013914f944e6e77b9504ea9a95a2c0cc9014c66ab0cc403
+    name: tailscale-subnet-router
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.1/tailscale-subnet-router-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-07-27T11:09:34.005439176Z"
     description: Deploy tailscale/headscale subnet router.
     digest: 254c34314a200a043773f27c443f96a7c659cbecb2508a9af5654c2199edc37a
@@ -217,4 +227,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-27T11:09:34.005481946Z"
+generated: "2025-07-27T13:13:23.212113729Z"
