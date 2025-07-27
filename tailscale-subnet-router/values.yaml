@@ -1,30 +1,48 @@
-namespace: default
-
-replicaCount: 1
+replicaCount: 1 # Number of pod replicas for high availability (keep 1 for subnet router mode)
 
 image:
-  repository: ghcr.io/tailscale/tailscale
-  tag: latest
-  pullPolicy: Always
+  repository: ghcr.io/tailscale/tailscale # Image registry for tailscale container
+  tag: latest # Image tag, e.g., version or 'latest'
+  pullPolicy: Always # Kubernetes imagePullPolicy (IfNotPresent/Always/etc)
 
 serviceAccount:
-  create: true
-  name: ""
+  create: true # Whether to create a ServiceAccount
+  name: "" # Provide a custom name (defaults to chart fullname if empty)
 
 rbac:
-  create: true
+  create: true # Whether to create the necessary RBAC resources
 
+# Override the chart's name or fullname (advanced, not necessary in most cases)
 nameOverride: ""
 fullnameOverride: ""
 
-podLabels: {}
+podLabels: {} # Additional custom labels for the pods (as a YAML map)
 
-resources: {}
+resources: {} # Pod resource requests and limits (cpu, memory, etc.)
+# Example:
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 50m
+#     memory: 64Mi
 
 securityContext:
-  privileged: true
+  privileged: true # Ensures the Tailscale container runs with privileged permissions
 
-additionalEnvs:
-  []
-  # - name: "TS_EXTRA_ARGS"
-  #   value: "--login-server=https://headscale.example.com"
+# Additional environment variables to inject into the container.
+# Use this to customize behavior, connect to Headscale, etc.
+# Each item must be an object with 'name' (required) and either 'value' or 'valueFrom'.
+additionalEnvs: []
+# - name: TS_EXTRA_ARGS
+#   value: "--login-server=https://headscale.example.com"
+# - name: CUSTOM_ENV_VAR
+#   valueFrom:
+#     secretKeyRef:
+#       name: my-secret
+#       key: password
+
+# The subnet to expose to the Tailscale network.
+# This will be injected as the 'TS_ROUTES' environment variable.
+subNet: "10.43.0.0/16"

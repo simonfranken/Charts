@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "tailscale-subnet-router.fullname" . }}
-  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "tailscale-subnet-router.fullname" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -35,6 +34,8 @@ spec:
               value: "false"
             - name: TS_DEBUG_FIREWALL_MODE
               value: "auto"
+            - name: TS_ROUTES
+              value: {{ .Values.subNet }}
             {{- with .Values.additionalEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
