@@ -1,0 +1,30 @@
+namespace: default
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/tailscale/tailscale
+  tag: latest
+  pullPolicy: Always
+
+serviceAccount:
+  create: true
+  name: ""
+
+rbac:
+  create: true
+
+nameOverride: ""
+fullnameOverride: ""
+
+podLabels: {}
+
+resources: {}
+
+securityContext:
+  privileged: true
+
+additionalEnvs:
+  []
+  # - name: "TS_EXTRA_ARGS"
+  #   value: "--login-server=https://headscale.example.com"
