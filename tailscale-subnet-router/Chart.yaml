@@ -2,5 +2,12 @@ apiVersion: v2
 name: tailscale-subnet-router
 description: Deploy tailscale/headscale subnet router.
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "latest"
+
+dependencies:
+  - name: ingress-nginx
+    alias: nginx
+    repository: https://kubernetes.github.io/ingress-nginx
+    version: "4.13.0"
+    condition: nginx.enabled

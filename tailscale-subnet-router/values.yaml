@@ -46,3 +46,9 @@ additionalEnvs: []
 # The subnet to expose to the Tailscale network.
 # This will be injected as the 'TS_ROUTES' environment variable.
 subNet: "10.43.0.0/16"
+
+nginx:
+  enabled: false
+  controller:
+    service:
+      type: ClusterIP
