@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: mongo
+  tag: "7.0.5"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 27017
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  storageClass: "" # Set to override the default StorageClass, or leave empty
+
+resources: {}
+
+env: []
+# Example:
+# env:
+#   - name: MONGO_INITDB_ROOT_USERNAME
+#     value: myuser
+#   - name: MONGO_INITDB_ROOT_PASSWORD
+#     value: mypassword
