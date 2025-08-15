@@ -52,6 +52,17 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
     version: 0.1.0
+  mongodb:
+  - apiVersion: v2
+    appVersion: 7.0.5
+    created: "2025-08-15T10:16:42.494232876Z"
+    description: A Helm chart for MongoDB using the official Docker image
+    digest: 39216b82e9b721faa1607dcbbb7c36d3d6c748891335d1175c66eb0db8af4c09
+    name: mongodb
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/mongodb-0.1.0/mongodb-0.1.0.tgz
+    version: 0.1.0
   outline-wiki:
   - apiVersion: v2
     appVersion: latest
@@ -243,4 +254,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-28T11:21:57.899844858Z"
+generated: "2025-08-15T10:16:42.494284052Z"
