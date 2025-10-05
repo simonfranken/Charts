@@ -15,21 +15,7 @@ service:
 ingress:
   enabled: true
   className: ""
-  annotations:
-    # Adjust to your ingress controller (example: nginx)
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: "200m"
-    nginx.ingress.kubernetes.io/x-forwarded-proto: https
-    nginx.ingress.kubernetes.io/hsts: "true"
-    nginx.ingress.kubernetes.io/hsts-max-age: "31536000"
-    nginx.ingress.kubernetes.io/hsts-include-subdomains: "true"
-    nginx.ingress.kubernetes.io/hsts-preload: "true"
-    nginx.ingress.kubernetes.io/browser-xss-filter: "true"
-    nginx.ingress.kubernetes.io/content-type-nosniff: "true"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+  annotations: {}
   hosts:
     - host: n8n.yourdomain.com
       paths:
