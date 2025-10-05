@@ -1,0 +1,100 @@
+image:
+  repository: docker.n8n.io/n8nio/n8n
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 5678
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    # Adjust to your ingress controller (example: nginx)
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "200m"
+    nginx.ingress.kubernetes.io/x-forwarded-proto: https
+    nginx.ingress.kubernetes.io/hsts: "true"
+    nginx.ingress.kubernetes.io/hsts-max-age: "31536000"
+    nginx.ingress.kubernetes.io/hsts-include-subdomains: "true"
+    nginx.ingress.kubernetes.io/hsts-preload: "true"
+    nginx.ingress.kubernetes.io/browser-xss-filter: "true"
+    nginx.ingress.kubernetes.io/content-type-nosniff: "true"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+  hosts:
+    - host: n8n.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: n8n-tls
+      hosts:
+        - n8n.yourdomain.com
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClass: "" # e.g. "fast", "" to use default
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+  N8N_HOST: n8n.yourdomain.com
+  N8N_PORT: "5678"
+  N8N_PROTOCOL: "https"
+  N8N_RUNNERS_ENABLED: "true"
+  NODE_ENV: "production"
+  WEBHOOK_URL: "https://n8n.yourdomain.com/"
+  GENERIC_TIMEZONE: "Europe/Berlin"
+  TZ: "Europe/Berlin"
+
+extraEnv: []
+extraVolumes: []
+extraVolumeMounts: []
+
+secrets:
+  {}
+  # Example:
+  # N8N_BASIC_AUTH_USER: admin
+  # N8N_BASIC_AUTH_PASSWORD: changeme
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  timeoutSeconds: 5

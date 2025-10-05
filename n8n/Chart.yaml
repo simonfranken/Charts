@@ -1,0 +1,12 @@
+apiVersion: v2
+name: n8n
+description: n8n - Workflow Automation Platform, Kubernetes Helm chart
+type: application
+version: 0.1.0
+appVersion: "1.49.0" # set to a fixed n8n version or gh/latest
+home: https://n8n.io/
+sources:
+  - https://github.com/n8n-io/n8n
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
