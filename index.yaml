@@ -63,6 +63,23 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/mongodb-0.1.0/mongodb-0.1.0.tgz
     version: 0.1.0
+  n8n:
+  - apiVersion: v2
+    appVersion: 1.49.0
+    created: "2025-10-05T10:35:12.339757604Z"
+    description: n8n - Workflow Automation Platform, Kubernetes Helm chart
+    digest: 19cff85ff8f8804aecbede516b0034db817ff09a8709165f5f7b46fe78965779
+    home: https://n8n.io/
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: n8n
+    sources:
+    - https://github.com/n8n-io/n8n
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/n8n-0.1.0/n8n-0.1.0.tgz
+    version: 0.1.0
   outline-wiki:
   - apiVersion: v2
     appVersion: latest
@@ -254,4 +271,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-15T10:16:42.494284052Z"
+generated: "2025-10-05T10:35:12.339789453Z"
