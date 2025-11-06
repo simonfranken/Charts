@@ -1,7 +1,7 @@
 # Image settings for Outline container
 image:
   repository: docker.getoutline.com/outlinewiki/outline # Docker repository for Outline
-  tag: latest # Image tag/version for Outline
+  tag: "1.0.1" # Image tag/version for Outline
   pullPolicy: IfNotPresent # Image pull policy
 
 # Outline-specific settings
