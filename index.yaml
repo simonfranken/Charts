@@ -34,6 +34,16 @@ entries:
   headscale:
   - apiVersion: v2
     appVersion: v0.26
+    created: "2025-11-13T10:02:46.019889522Z"
+    description: A Helm chart for deploying Headscale
+    digest: ecca3e6994c163542825568d9874e1b5423353235db70f504da1bce543024dc9
+    name: headscale
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/headscale-0.2.1/headscale-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: v0.26
     created: "2025-11-13T09:03:53.697232084Z"
     description: A Helm chart for deploying Headscale
     digest: 9f2e294df7e4bc63a16e73dff515cb8257748b51f2bb7d0f50677ac71dbd7a5c
@@ -314,4 +324,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-13T09:03:53.697273511Z"
+generated: "2025-11-13T10:02:46.019937501Z"
