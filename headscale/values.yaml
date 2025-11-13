@@ -71,7 +71,7 @@ config:
 
   policy:
     mode: file
-    path: ""
+    path: "/etc/headscale/policy.json"
 
   dns:
     magic_dns: true
@@ -89,6 +89,9 @@ config:
 
   unix_socket: /var/run/headscale/headscale.sock
   unix_socket_permission: "0770"
+
+policy: |-
+  {}
 
 resources: {}
 nodeSelector: {}

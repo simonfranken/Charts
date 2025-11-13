@@ -5,3 +5,5 @@ metadata:
 data:
   config.yaml: |-
 {{ toYaml .Values.config | indent 4 }}
+  policy.json: |-
+{{ .Values.policy | indent 4 }}
