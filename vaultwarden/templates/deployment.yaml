@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vaultwarden.fullname" . }}
+  labels:
+    {{ include "vaultwarden.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        {{ include "vaultwarden.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: vaultwarden
+          image: {{ .Values.vaultwarden.image.repository }}:{{ .Values.vaultwarden.image.tag }}
+          imagePullPolicy: {{ .Values.vaultwarden.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mariadb.databaseSecret }}
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mariadb.databaseSecret }}
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mariadb.databaseSecret }}
+                  key: MYSQL_DATABASE
+            - name: DATABASE_URL
+              value: mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@{{ include "vaultwarden.mariadb.fullname" . }}:3306/$(MYSQL_DATABASE)
+            {{- if .Values.vaultwarden.env }}
+            {{- toYaml .Values.vaultwarden.env | nindent 12 }}  
+            {{- end }}
+          {{- if .Values.vaultwarden.secrets}}
+          envFrom:
+          {{- range .Values.vaultwarden.secrets }}
+            - secretRef:
+                name: {{ . }}
+          {{- end }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: vaultwarden-data
+              mountPath: /data
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: vaultwarden-data
+          persistentVolumeClaim:
+            claimName: {{ include "vaultwarden.fullname" . }}
+      {{- end }}
