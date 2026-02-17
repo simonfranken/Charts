@@ -321,6 +321,24 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/pocket-id-0.1.0/pocket-id-0.1.0.tgz
     version: 0.1.0
+  postgresql:
+  - apiVersion: v2
+    appVersion: "16.2"
+    created: "2026-02-17T10:48:45.863237408Z"
+    description: A reliable PostgreSQL database Helm chart for Kubernetes
+    digest: 13377575bdf0b99daeb68fedd1ae25e1e3394998cbf93bf0dfe9aebd6019802c
+    keywords:
+    - postgresql
+    - database
+    - sql
+    maintainers:
+    - email: your-email@example.com
+      name: Your Name
+    name: postgresql
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/postgresql-1.0.0/postgresql-1.0.0.tgz
+    version: 1.0.0
   tailscale-subnet-router:
   - apiVersion: v2
     appVersion: latest
@@ -358,4 +376,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-26T14:11:42.866328091Z"
+generated: "2026-02-17T10:48:45.863299665Z"
