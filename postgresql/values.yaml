@@ -1,0 +1,88 @@
+# Default values for postgresql chart
+
+image:
+  repository: postgres
+  pullPolicy: IfNotPresent
+  tag: "16.2"
+
+imagePullSecrets: []
+# name: regcred
+
+replicaCount: 1
+
+# PostgreSQL settings
+postgresql:
+  # Database name (optional, will be created on first start)
+  database: ""
+  # Username for additional users (optional)
+  username: ""
+  # Secret containing credentials for the postgres superuser
+  # The secret must contain keys: username, password
+  # Create with: kubectl create secret generic postgresql-creds \
+  #   --from-literal=username=postgres --from-literal=password=yourpassword
+  existingSecret: "postgresql-creds"
+
+# Persistence configuration
+persistence:
+  enabled: true
+  storageClass: ""
+  #.storageClass: "standard"  # Set to your preferred StorageClass
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 5432
+
+# Resource limits and requests
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# Health probes
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# Pod security context
+securityContext:
+  enabled: true
+  runAsUser: 999
+  runAsGroup: 999
+  fsGroup: 999
+
+# Container security context
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  # tmp volume for temporary files when readOnlyRootFilesystem is true
+  tmpVolumeSize: 100Mi
+
+# Pod annotations
+podAnnotations: {}
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
