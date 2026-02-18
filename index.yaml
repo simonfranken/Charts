@@ -324,6 +324,20 @@ entries:
   postgresql:
   - apiVersion: v2
     appVersion: "18.2"
+    created: "2026-02-18T17:30:25.242826432Z"
+    description: A reliable PostgreSQL database Helm chart for Kubernetes
+    digest: 5ab1968a03dc91f1cf597495d41619674af976a4600fc8fdd50fa4d8e6079269
+    keywords:
+    - postgresql
+    - database
+    - sql
+    name: postgresql
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/postgresql-1.0.2/postgresql-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: "18.2"
     created: "2026-02-18T16:32:00.21448156Z"
     description: A reliable PostgreSQL database Helm chart for Kubernetes
     digest: b9342d8a2aa714cb97ee64e7c548707dae5d9657ea8a980970a7f077c5f730f6
@@ -390,4 +404,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-18T16:32:00.21454546Z"
+generated: "2026-02-18T17:30:25.242881925Z"
