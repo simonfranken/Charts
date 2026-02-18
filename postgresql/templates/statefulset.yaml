@@ -10,7 +10,7 @@ metadata:
   {{- end }}
 spec:
   serviceName: {{ include "postgresql.fullname" . }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "postgresql.selectorLabels" . | nindent 6 }}
@@ -18,11 +18,16 @@ spec:
     metadata:
       labels:
         {{- include "postgresql.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
+      terminationGracePeriodSeconds: 60
       securityContext:
         {{- if .Values.securityContext.enabled }}
         fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -52,31 +57,32 @@ spec:
                   key: password
             {{- if .Values.postgresql.database }}
             - name: POSTGRES_DB
-              value: {{ .Values.postgresql.database }}
+              value: {{ .Values.postgresql.database | quote }}
             {{- end }}
-          {{- if .Values.postgresql.username }}
-            - name: POSTGRES_USER
-              value: {{ .Values.postgresql.username }}
-          {{- end }}
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
             allowPrivilegeEscalation: {{ .Values.containerSecurityContext.allowPrivilegeEscalation }}
             readOnlyRootFilesystem: {{ .Values.containerSecurityContext.readOnlyRootFilesystem }}
+            runAsNonRoot: true
           {{- end }}
-          {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
           volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            {{- end }}
+            {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
             - name: tmp
               mountPath: /tmp
             - name: run
               mountPath: /var/run
-          {{- end }}
+            {{- end }}
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             exec:
               command:
                 - pg_isready
                 - -U
-                - postgres
+                - $(POSTGRES_USER)
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -88,7 +94,7 @@ spec:
               command:
                 - pg_isready
                 - -U
-                - postgres
+                - $(POSTGRES_USER)
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
@@ -96,16 +102,11 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.persistence.enabled }}
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
-          {{- end }}
-      {{- if .Values.persistence.enabled }}
       volumes:
+        {{- if not .Values.persistence.enabled }}
         - name: data
-          persistentVolumeClaim:
-            claimName: {{ include "postgresql.fullname" . }}
+          emptyDir: {}
+        {{- end }}
         {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
         - name: tmp
           emptyDir:
@@ -115,11 +116,6 @@ spec:
             medium: Memory
             sizeLimit: 10Mi
         {{- end }}
-      {{- else }}
-      volumes:
-        - name: data
-          emptyDir: {}
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

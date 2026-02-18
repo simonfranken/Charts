@@ -3,20 +3,17 @@
 image:
   repository: postgres
   pullPolicy: IfNotPresent
-  tag: "16.2"
+  # Overrides the image tag. Defaults to the chart appVersion.
+  tag: ""
 
 imagePullSecrets: []
 # name: regcred
-
-replicaCount: 1
 
 # PostgreSQL settings
 postgresql:
   # Database name (optional, will be created on first start)
   database: ""
-  # Username for additional users (optional)
-  username: ""
-  # Secret containing credentials for the postgres superuser
+  # Name of an existing Secret containing the database credentials.
   # The secret must contain keys: username, password
   # Create with: kubectl create secret generic postgresql-creds \
   #   --from-literal=username=postgres --from-literal=password=yourpassword
@@ -26,14 +23,12 @@ postgresql:
 persistence:
   enabled: true
   storageClass: ""
-  #.storageClass: "standard"  # Set to your preferred StorageClass
   size: 10Gi
   accessModes:
     - ReadWriteOnce
 
-# Service configuration
+# Service configuration — always ClusterIP (cluster-internal only)
 service:
-  type: ClusterIP
   port: 5432
 
 # Resource limits and requests
@@ -72,10 +67,10 @@ containerSecurityContext:
   enabled: true
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-  # tmp volume for temporary files when readOnlyRootFilesystem is true
+  # Size of the /tmp emptyDir volume when readOnlyRootFilesystem is true
   tmpVolumeSize: 100Mi
 
-# Pod annotations
+# Pod annotations (applied to the pod template, e.g. for Prometheus or Vault)
 podAnnotations: {}
 
 # Node selector
