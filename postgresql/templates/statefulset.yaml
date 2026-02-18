@@ -68,7 +68,7 @@ spec:
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name: data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
             {{- end }}
             {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
             - name: tmp
