@@ -1,0 +1,17 @@
+apiVersion: v2
+name: lobehub
+description: LobeHub - Open-source AI chat platform with knowledge base, multimodal AI, and plugin support
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://lobehub.com
+sources:
+  - https://github.com/lobehub/lobe-chat
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - ai
+  - chat
+  - llm
+  - nextjs

@@ -1,0 +1,271 @@
+## LobeHub container image
+image:
+  repository: lobehub/lobehub
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+## Service configuration
+service:
+  type: ClusterIP
+  port: 3210
+
+## Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: lobehub.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+    # - secretName: lobehub-tls
+    #   hosts:
+    #     - lobehub.example.com
+
+## Resource requests and limits
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 2
+    memory: 2Gi
+
+## Pod security context
+securityContext:
+  enabled: false
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+## Liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+## ──────────────────────────────────────────────
+## Core LobeHub configuration (non-sensitive)
+## ──────────────────────────────────────────────
+config:
+  ## Public URL that browsers use to reach LobeHub
+  ## Required for OAuth callbacks and file URL generation
+  appUrl: "https://lobehub.example.com"
+
+  ## Internal URL used for server-to-server communication (bypasses CDN/proxy).
+  ## Defaults to appUrl when left empty.
+  internalAppUrl: ""
+
+  ## Controls API key selection when multiple keys are set: "random" or "turn"
+  apiKeySelectMode: "random"
+
+  ## Default agent configuration string
+  ## Example: "model=gpt-4;params.max_tokens=300"
+  defaultAgentConfig: ""
+
+  ## System agent configuration
+  ## Example: "default=openai/gpt-4o" or "topic=openai/gpt-4,translation=anthropic/claude-3"
+  systemAgent: ""
+
+  ## Feature flags: use "+" to enable and "-" to disable features
+  ## Example: "-welcome_suggest"
+  featureFlags: ""
+
+  ## Proxy URL for outbound connections (optional)
+  ## Example: "http://127.0.0.1:7890"
+  proxyUrl: ""
+
+  ## Whether to send DNS queries through the proxy (0 = local DNS, 1 = proxy DNS)
+  enableProxyDns: "0"
+
+  ## Allow connections to private IP addresses (SSRF protection; 0 = deny, 1 = allow)
+  ssrfAllowPrivateIp: "0"
+
+  ## Comma-separated list of specific private IPs to whitelist (when ssrfAllowPrivateIp=0)
+  ssrfAllowIpList: ""
+
+  ## CDN prefix for static assets (optional)
+  assetPrefix: ""
+
+  ## Plugin market index URL override (optional)
+  pluginsIndexUrl: ""
+
+  ## Plugin settings (optional)
+  ## Example: "search-engine:SERPAPI_API_KEY=xxxxx"
+  pluginSettings: ""
+
+  ## Assistant market index URL override (optional)
+  agentsIndexUrl: ""
+
+## ──────────────────────────────────────────────
+## Database (PostgreSQL with pgvector)
+## External service — provide a full DSN
+## ──────────────────────────────────────────────
+database:
+  ## Full PostgreSQL connection string
+  ## Example: "postgresql://postgres:password@postgres-host:5432/lobechat"
+  url: ""
+
+## ──────────────────────────────────────────────
+## Redis (optional — improves session & caching)
+## ──────────────────────────────────────────────
+redis:
+  enabled: false
+  ## Full Redis connection URL
+  ## Example: "redis://username:password@redis-host:6379/0"
+  url: ""
+  ## Key prefix for data isolation in shared Redis instances
+  prefix: "lobechat"
+  ## Enable TLS (required for most managed Redis services)
+  tls: "false"
+
+## ──────────────────────────────────────────────
+## S3-compatible object storage
+## Works with AWS S3, Cloudflare R2, MinIO, RustFS, etc.
+## ──────────────────────────────────────────────
+s3:
+  enabled: false
+  ## S3 endpoint URL (for virtual-host mode, do NOT include bucket name)
+  endpoint: ""
+  ## Bucket name
+  bucket: "lobe"
+  ## Region (required by some providers like AWS S3)
+  region: ""
+  ## Use path-style URLs (1 = path-style, 0 = virtual-host)
+  ## Set to "1" for MinIO / RustFS and other self-hosted S3 services
+  enablePathStyle: "1"
+  ## Set ACL to public-read on upload (0 = private, 1 = public-read)
+  setAcl: "0"
+  ## Use base64 encoding for images sent to LLMs (set to "1" if S3 is on plain HTTP)
+  llmVisionImageUseBase64: "1"
+
+## ──────────────────────────────────────────────
+## Authentication (Better Auth)
+## ──────────────────────────────────────────────
+auth:
+  ## Comma-separated list of enabled SSO providers
+  ## Example: "google,github,microsoft"
+  ssoProviders: ""
+
+  ## Require email verification before sign-in (0 = no, 1 = yes)
+  emailVerification: "0"
+
+  ## Disable email/password auth (forces SSO-only login)
+  disableEmailPassword: "0"
+
+  ## Allowed emails / domains for registration
+  ## Example: "example.com,admin@other.com"
+  allowedEmails: ""
+
+  ## Expiration time for internal JWT tokens
+  ## Format: number + unit (s / m / h). Keep short for security.
+  internalJwtExpiration: "30s"
+
+  ## SMTP settings (required for email verification and password reset)
+  smtp:
+    enabled: false
+    host: ""
+    port: "587"
+    secure: "false"
+    user: ""
+    from: ""
+
+  ## Google OAuth
+  google:
+    enabled: false
+    id: ""
+
+  ## GitHub OAuth
+  github:
+    enabled: false
+    id: ""
+
+  ## Microsoft Entra ID (Azure AD)
+  microsoft:
+    enabled: false
+    id: ""
+    tenantId: "common"
+    authorityUrl: "https://login.microsoftonline.com"
+
+  ## AWS Cognito
+  cognito:
+    enabled: false
+    id: ""
+    issuer: ""
+
+## ──────────────────────────────────────────────
+## Sensitive credentials (stored in a Secret)
+## These values are kept in a Kubernetes Secret.
+## ──────────────────────────────────────────────
+secrets:
+  ## Key used to encrypt secrets stored in the database.
+  ## Generate with: openssl rand -base64 32
+  ## WARNING: Never change this after initial deployment.
+  keyVaultsSecret: ""
+
+  ## Session token encryption key for Better Auth.
+  ## Generate with: openssl rand -base64 32
+  authSecret: ""
+
+  ## JWKS key for JWT signing (RS256 RSA key pair as JSON string).
+  jwksKey: ""
+
+  ## S3 access key ID
+  s3AccessKeyId: ""
+
+  ## S3 secret access key
+  s3SecretAccessKey: ""
+
+  ## Google OAuth client secret
+  authGoogleSecret: ""
+
+  ## GitHub OAuth client secret
+  authGithubSecret: ""
+
+  ## Microsoft Entra ID client secret
+  authMicrosoftSecret: ""
+
+  ## AWS Cognito client secret
+  authCognitoSecret: ""
+
+  ## SMTP password
+  smtpPassword: ""
+
+## Additional non-sensitive environment variables (key: value map)
+extraEnv: {}
+## Example:
+# extraEnv:
+#   MY_CUSTOM_VAR: "value"
+
+## Additional secret environment variables (key: value map, stored in Secret)
+extraSecrets: {}
+## Example:
+# extraSecrets:
+#   OPENAI_API_KEY: "sk-..."
+#   ANTHROPIC_API_KEY: "sk-ant-..."

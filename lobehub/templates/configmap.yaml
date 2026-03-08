@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lobehub.fullname" . }}
+  labels:
+    {{- include "lobehub.labels" . | nindent 4 }}
+data:
+  ## ── Application URLs ────────────────────────────────────────────────
+  APP_URL: {{ .Values.config.appUrl | quote }}
+  {{- if .Values.config.internalAppUrl }}
+  INTERNAL_APP_URL: {{ .Values.config.internalAppUrl | quote }}
+  {{- end }}
+
+  ## ── General settings ────────────────────────────────────────────────
+  {{- if .Values.config.apiKeySelectMode }}
+  API_KEY_SELECT_MODE: {{ .Values.config.apiKeySelectMode | quote }}
+  {{- end }}
+  {{- if .Values.config.defaultAgentConfig }}
+  DEFAULT_AGENT_CONFIG: {{ .Values.config.defaultAgentConfig | quote }}
+  {{- end }}
+  {{- if .Values.config.systemAgent }}
+  SYSTEM_AGENT: {{ .Values.config.systemAgent | quote }}
+  {{- end }}
+  {{- if .Values.config.featureFlags }}
+  FEATURE_FLAGS: {{ .Values.config.featureFlags | quote }}
+  {{- end }}
+  {{- if .Values.config.proxyUrl }}
+  PROXY_URL: {{ .Values.config.proxyUrl | quote }}
+  {{- end }}
+  {{- if .Values.config.enableProxyDns }}
+  ENABLE_PROXY_DNS: {{ .Values.config.enableProxyDns | quote }}
+  {{- end }}
+  SSRF_ALLOW_PRIVATE_IP_ADDRESS: {{ .Values.config.ssrfAllowPrivateIp | quote }}
+  {{- if .Values.config.ssrfAllowIpList }}
+  SSRF_ALLOW_IP_ADDRESS_LIST: {{ .Values.config.ssrfAllowIpList | quote }}
+  {{- end }}
+  {{- if .Values.config.assetPrefix }}
+  NEXT_PUBLIC_ASSET_PREFIX: {{ .Values.config.assetPrefix | quote }}
+  {{- end }}
+  {{- if .Values.config.pluginsIndexUrl }}
+  PLUGINS_INDEX_URL: {{ .Values.config.pluginsIndexUrl | quote }}
+  {{- end }}
+  {{- if .Values.config.pluginSettings }}
+  PLUGIN_SETTINGS: {{ .Values.config.pluginSettings | quote }}
+  {{- end }}
+  {{- if .Values.config.agentsIndexUrl }}
+  AGENTS_INDEX_URL: {{ .Values.config.agentsIndexUrl | quote }}
+  {{- end }}
+
+  ## ── S3 / Object Storage ─────────────────────────────────────────────
+  {{- if .Values.s3.enabled }}
+  S3_ENDPOINT: {{ .Values.s3.endpoint | quote }}
+  S3_BUCKET: {{ .Values.s3.bucket | quote }}
+  {{- if .Values.s3.region }}
+  S3_REGION: {{ .Values.s3.region | quote }}
+  {{- end }}
+  S3_ENABLE_PATH_STYLE: {{ .Values.s3.enablePathStyle | quote }}
+  S3_SET_ACL: {{ .Values.s3.setAcl | quote }}
+  LLM_VISION_IMAGE_USE_BASE64: {{ .Values.s3.llmVisionImageUseBase64 | quote }}
+  {{- end }}
+
+  ## ── Redis ───────────────────────────────────────────────────────────
+  {{- if .Values.redis.enabled }}
+  REDIS_URL: {{ .Values.redis.url | quote }}
+  REDIS_PREFIX: {{ .Values.redis.prefix | quote }}
+  REDIS_TLS: {{ .Values.redis.tls | quote }}
+  {{- end }}
+
+  ## ── Authentication ──────────────────────────────────────────────────
+  {{- if .Values.auth.ssoProviders }}
+  AUTH_SSO_PROVIDERS: {{ .Values.auth.ssoProviders | quote }}
+  {{- end }}
+  AUTH_EMAIL_VERIFICATION: {{ .Values.auth.emailVerification | quote }}
+  AUTH_DISABLE_EMAIL_PASSWORD: {{ .Values.auth.disableEmailPassword | quote }}
+  {{- if .Values.auth.allowedEmails }}
+  AUTH_ALLOWED_EMAILS: {{ .Values.auth.allowedEmails | quote }}
+  {{- end }}
+  INTERNAL_JWT_EXPIRATION: {{ .Values.auth.internalJwtExpiration | quote }}
+
+  ## ── SMTP ────────────────────────────────────────────────────────────
+  {{- if .Values.auth.smtp.enabled }}
+  SMTP_HOST: {{ .Values.auth.smtp.host | quote }}
+  SMTP_PORT: {{ .Values.auth.smtp.port | quote }}
+  SMTP_SECURE: {{ .Values.auth.smtp.secure | quote }}
+  SMTP_USER: {{ .Values.auth.smtp.user | quote }}
+  {{- if .Values.auth.smtp.from }}
+  SMTP_FROM: {{ .Values.auth.smtp.from | quote }}
+  {{- end }}
+  {{- end }}
+
+  ## ── Google OAuth ────────────────────────────────────────────────────
+  {{- if .Values.auth.google.enabled }}
+  AUTH_GOOGLE_ID: {{ .Values.auth.google.id | quote }}
+  {{- end }}
+
+  ## ── GitHub OAuth ────────────────────────────────────────────────────
+  {{- if .Values.auth.github.enabled }}
+  AUTH_GITHUB_ID: {{ .Values.auth.github.id | quote }}
+  {{- end }}
+
+  ## ── Microsoft Entra ID ──────────────────────────────────────────────
+  {{- if .Values.auth.microsoft.enabled }}
+  AUTH_MICROSOFT_ID: {{ .Values.auth.microsoft.id | quote }}
+  AUTH_MICROSOFT_TENANT_ID: {{ .Values.auth.microsoft.tenantId | quote }}
+  AUTH_MICROSOFT_AUTHORITY_URL: {{ .Values.auth.microsoft.authorityUrl | quote }}
+  {{- end }}
+
+  ## ── AWS Cognito ─────────────────────────────────────────────────────
+  {{- if .Values.auth.cognito.enabled }}
+  AUTH_COGNITO_ID: {{ .Values.auth.cognito.id | quote }}
+  AUTH_COGNITO_ISSUER: {{ .Values.auth.cognito.issuer | quote }}
+  {{- end }}
+
+  ## ── Extra non-sensitive environment variables ────────────────────────
+  {{- range $key, $val := .Values.extraEnv }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
