@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "redis.fullname" . }}
+  labels:
+    {{- include "redis.labels" . | nindent 4 }}
+data:
+  redis.conf: |
+    # Bind to all interfaces so Kubernetes services can reach Redis
+    bind 0.0.0.0
+
+    # Port
+    port 6379
+
+    # Disable protected mode (access is controlled by auth and network policy)
+    protected-mode no
+
+    # Logging
+    loglevel {{ .Values.config.loglevel }}
+
+    # Databases
+    databases {{ .Values.config.databases }}
+
+    # Client idle timeout (0 = disabled)
+    timeout {{ .Values.config.timeout }}
+
+    # TCP keepalive
+    tcp-keepalive {{ .Values.config.tcpKeepalive }}
+
+    # Memory limit and eviction policy
+    {{- if .Values.config.maxmemory }}
+    maxmemory {{ .Values.config.maxmemory }}
+    {{- end }}
+    maxmemory-policy {{ .Values.config.maxmemoryPolicy }}
+
+    # Persistence
+    {{- if .Values.persistence.enabled }}
+    # RDB snapshots
+    save 3600 1
+    save 300 100
+    save 60 10000
+    dbfilename dump.rdb
+    dir /data
+    # AOF
+    appendonly yes
+    appendfilename "appendonly.aof"
+    appendfsync everysec
+    {{- else }}
+    # Persistence disabled — cache-only mode
+    save ""
+    appendonly no
+    {{- end }}
+
+    # ACL file
+    {{- if .Values.auth.acl.enabled }}
+    aclfile /etc/redis/acl.conf
+    {{- end }}

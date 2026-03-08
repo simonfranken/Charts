@@ -1,0 +1,120 @@
+# Default values for redis chart
+
+image:
+  repository: redis
+  pullPolicy: IfNotPresent
+  # Overrides the image tag. Defaults to the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+# - name: regcred
+
+nameOverride: ""
+fullnameOverride: ""
+
+# ── Authentication ──────────────────────────────────────────────────────────
+auth:
+  # Enable Redis password authentication (requirepass).
+  # The password is read from an existing Secret — see secret-example.yaml.
+  enabled: true
+  # Name of an existing Secret containing the Redis password.
+  # The secret must contain the key: password
+  # Create with: kubectl create secret generic redis-creds \
+  #   --from-literal=password=yourpassword
+  existingSecret: "redis-creds"
+
+  # ACL mode — enable per-user access control (Redis 6+).
+  # When enabled, an ACL file is mounted from a separate Secret.
+  # Each application connects with redis://username:password@redis:6379
+  # and can be restricted to specific key prefixes.
+  acl:
+    enabled: false
+    # Name of an existing Secret containing the ACL file contents.
+    # The secret must contain the key: acl.conf
+    # See secret-example.yaml for an example ACL file.
+    existingSecret: "redis-acl"
+
+# ── Redis configuration ─────────────────────────────────────────────────────
+config:
+  # Maximum memory Redis may use. Use 0 for no limit.
+  # Examples: "256mb", "1gb", "0"
+  maxmemory: "256mb"
+
+  # Eviction policy when maxmemory is reached.
+  # Common choices:
+  #   allkeys-lru    — evict any key by LRU (good general cache default)
+  #   volatile-lru   — evict keys with TTL by LRU
+  #   allkeys-lfu    — evict any key by LFU
+  #   noeviction     — return error when full (use for session stores)
+  maxmemoryPolicy: "allkeys-lru"
+
+  # Number of logical databases (0-15 available by default)
+  databases: 16
+
+  # Client idle timeout in seconds. 0 = never timeout.
+  timeout: 0
+
+  # TCP keepalive interval in seconds. 0 = disabled.
+  tcpKeepalive: 300
+
+  # Log level: debug, verbose, notice, warning
+  loglevel: "notice"
+
+# ── Persistence ─────────────────────────────────────────────────────────────
+persistence:
+  # Disable persistence for a pure cache-only instance (data lost on restart).
+  # Enable to back Redis with a PersistentVolumeClaim.
+  enabled: false
+  storageClass: ""
+  size: 1Gi
+  accessModes:
+    - ReadWriteOnce
+
+# ── Service ──────────────────────────────────────────────────────────────────
+service:
+  port: 6379
+
+# ── Resource limits and requests ────────────────────────────────────────────
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# ── Health probes ───────────────────────────────────────────────────────────
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# ── Pod security context ─────────────────────────────────────────────────────
+securityContext:
+  enabled: true
+  runAsUser: 999
+  runAsGroup: 999
+  fsGroup: 999
+
+# ── Container security context ──────────────────────────────────────────────
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+
+# ── Pod annotations ──────────────────────────────────────────────────────────
+podAnnotations: {}
+
+# ── Scheduling ───────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}

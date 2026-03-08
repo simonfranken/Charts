@@ -1,0 +1,47 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+Redis can be accessed via port {{ .Values.service.port }} on the following DNS name from within your cluster:
+
+  {{ include "redis.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}
+
+{{- if .Values.auth.enabled }}
+
+To get the Redis password, run:
+
+  $ kubectl get secret {{ .Values.auth.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 -d
+
+To connect to Redis:
+
+  $ kubectl run {{ include "redis.fullname" . }}-client --rm -it --image=redis:7.4 --restart=Never -- \
+      redis-cli -h {{ include "redis.fullname" . }} -a $(kubectl get secret {{ .Values.auth.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 -d)
+
+{{- else }}
+
+To connect to Redis (no authentication):
+
+  $ kubectl run {{ include "redis.fullname" . }}-client --rm -it --image=redis:7.4 --restart=Never -- \
+      redis-cli -h {{ include "redis.fullname" . }}
+
+{{- end }}
+
+{{- if .Values.auth.acl.enabled }}
+
+ACL mode is enabled. Each user/application connects with its own credentials:
+
+  redis://<username>:<password>@{{ include "redis.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}
+
+{{- end }}
+
+{{- if not .Values.persistence.enabled }}
+
+WARNING: Persistence is disabled. All data will be lost when the pod is restarted.
+         Set persistence.enabled=true to use a PersistentVolumeClaim.
+
+{{- end }}
