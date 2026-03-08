@@ -75,6 +75,28 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-08T17:25:56.079514351Z"
+    description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
+      AI, and plugin support
+    digest: 6022b1caf88186ab2860ce193ec1816efbb6d3dffb9a1a533fd4d5ea63de1dd7
+    home: https://lobehub.com
+    keywords:
+    - ai
+    - chat
+    - llm
+    - nextjs
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: lobehub
+    sources:
+    - https://github.com/lobehub/lobe-chat
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/lobehub-1.0.0/lobehub-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-08T16:50:28.994405923Z"
     description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
       AI, and plugin support
@@ -390,6 +412,28 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/postgresql-1.0.0/postgresql-1.0.0.tgz
     version: 1.0.0
+  redis:
+  - apiVersion: v2
+    appVersion: "7.4"
+    created: "2026-03-08T17:25:56.286960507Z"
+    description: A lightweight Redis cache Helm chart for Kubernetes
+    digest: 3e87ea0efa3a8820be51e6d7f741d235ff040efa8041cf239a6dd5b4d957da90
+    home: https://redis.io
+    keywords:
+    - redis
+    - cache
+    - session
+    - key-value
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: redis
+    sources:
+    - https://github.com/redis/redis
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/redis-1.0.0/redis-1.0.0.tgz
+    version: 1.0.0
   tailscale-subnet-router:
   - apiVersion: v2
     appVersion: latest
@@ -427,4 +471,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-08T16:50:28.994439663Z"
+generated: "2026-03-08T17:25:56.28702076Z"
