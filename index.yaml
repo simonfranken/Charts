@@ -415,6 +415,27 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: "7.4"
+    created: "2026-03-08T18:34:56.016390931Z"
+    description: A lightweight Redis cache Helm chart for Kubernetes
+    digest: e1f9e37fa684700e6548eaefe16f156f23408534aff211ce3aea10c26c49a5e5
+    home: https://redis.io
+    keywords:
+    - redis
+    - cache
+    - session
+    - key-value
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: redis
+    sources:
+    - https://github.com/redis/redis
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/redis-1.0.1/redis-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: "7.4"
     created: "2026-03-08T17:25:56.286960507Z"
     description: A lightweight Redis cache Helm chart for Kubernetes
     digest: 3e87ea0efa3a8820be51e6d7f741d235ff040efa8041cf239a6dd5b4d957da90
@@ -471,4 +492,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-08T17:25:56.28702076Z"
+generated: "2026-03-08T18:34:56.01647609Z"
