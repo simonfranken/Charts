@@ -29,6 +29,7 @@ helm install my-redis ./redis -n myapp
 | `auth.existingSecret` | Secret containing `password` key | `redis-creds` |
 | `auth.acl.enabled` | Enable ACL-based access control | `false` |
 | `auth.acl.existingSecret` | Secret containing `acl.conf` key | `redis-acl` |
+| `auth.acl.probeSecret` | Secret containing `username` and `password` keys for health probes | `redis-probe-creds` |
 | `config.maxmemory` | Maximum memory limit | `256mb` |
 | `config.maxmemoryPolicy` | Eviction policy when full | `allkeys-lru` |
 | `config.databases` | Number of logical databases | `16` |
@@ -64,9 +65,25 @@ kubectl -n <namespace> create secret generic redis-acl \
   --from-file=acl.conf=/path/to/your/acl.conf
 ```
 
-Applications then connect with `redis://<username>:<password>@redis-host:6379`.
+The ACL file must include a minimal `probe` user for the liveness/readiness probes:
 
-See `secret-example.yaml` for a complete ACL file example.
+```
+user default off nopass nocommands
+user probe on >probepassword nokeys +ping
+user myapp on >myapp-password ~myapp:* +@all
+```
+
+Then create the probe credentials secret:
+
+```bash
+kubectl -n <namespace> create secret generic redis-probe-creds \
+  --from-literal=username=probe \
+  --from-literal=password=probepassword
+```
+
+> **Note:** When ACL mode is enabled, `auth.existingSecret` is unused — `--requirepass` is not passed to Redis. All authentication is handled by the ACL file.
+
+Applications then connect with `redis://<username>:<password>@redis-host:6379`.
 
 ## Persistence
 

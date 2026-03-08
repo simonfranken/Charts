@@ -43,7 +43,7 @@ spec:
           command:
             - redis-server
             - /etc/redis/redis.conf
-            {{- if .Values.auth.enabled }}
+            {{- if and .Values.auth.enabled (not .Values.auth.acl.enabled) }}
             - --requirepass
             - $(REDIS_PASSWORD)
             {{- end }}
@@ -51,13 +51,27 @@ spec:
             - name: redis
               containerPort: 6379
               protocol: TCP
-          {{- if .Values.auth.enabled }}
+          {{- if or (and .Values.auth.enabled (not .Values.auth.acl.enabled)) .Values.auth.acl.enabled }}
           env:
+            {{- if and .Values.auth.enabled (not .Values.auth.acl.enabled) }}
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.auth.existingSecret }}
                   key: password
+            {{- end }}
+            {{- if .Values.auth.acl.enabled }}
+            - name: REDIS_PROBE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.auth.acl.probeSecret }}
+                  key: username
+            - name: REDIS_PROBE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.auth.acl.probeSecret }}
+                  key: password
+            {{- end }}
           {{- end }}
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
@@ -88,7 +102,9 @@ spec:
               command:
                 - sh
                 - -c
-                {{- if .Values.auth.enabled }}
+                {{- if .Values.auth.acl.enabled }}
+                - redis-cli --user "$REDIS_PROBE_USER" --pass "$REDIS_PROBE_PASSWORD" ping | grep -q PONG
+                {{- else if .Values.auth.enabled }}
                 - redis-cli -a "$REDIS_PASSWORD" ping | grep -q PONG
                 {{- else }}
                 - redis-cli ping | grep -q PONG
@@ -104,7 +120,9 @@ spec:
               command:
                 - sh
                 - -c
-                {{- if .Values.auth.enabled }}
+                {{- if .Values.auth.acl.enabled }}
+                - redis-cli --user "$REDIS_PROBE_USER" --pass "$REDIS_PROBE_PASSWORD" ping | grep -q PONG
+                {{- else if .Values.auth.enabled }}
                 - redis-cli -a "$REDIS_PASSWORD" ping | grep -q PONG
                 {{- else }}
                 - redis-cli ping | grep -q PONG

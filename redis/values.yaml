@@ -27,12 +27,20 @@ auth:
   # When enabled, an ACL file is mounted from a separate Secret.
   # Each application connects with redis://username:password@redis:6379
   # and can be restricted to specific key prefixes.
+  # Note: when ACL is enabled, auth.existingSecret is ignored — all auth
+  # is handled through the ACL file. Do not set requirepass alongside ACL.
   acl:
     enabled: false
     # Name of an existing Secret containing the ACL file contents.
     # The secret must contain the key: acl.conf
     # See secret-example.yaml for an example ACL file.
     existingSecret: "redis-acl"
+    # Name of an existing Secret containing credentials for the liveness
+    # and readiness probes. Must contain keys: username, password.
+    # The corresponding ACL user needs only the PING command:
+    #   user probe on >probepassword nokeys +ping
+    # See secret-example.yaml for an example.
+    probeSecret: "redis-probe-creds"
 
 # ── Redis configuration ─────────────────────────────────────────────────────
 config:
