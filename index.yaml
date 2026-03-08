@@ -72,6 +72,29 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
     version: 0.1.0
+  lobehub:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-03-08T16:50:28.994405923Z"
+    description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
+      AI, and plugin support
+    digest: 537b06841847ddfcdd3c5194fbd70acae0b63c4c23d71fbb52d4d1491aabd696
+    home: https://lobehub.com
+    keywords:
+    - ai
+    - chat
+    - llm
+    - nextjs
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: lobehub
+    sources:
+    - https://github.com/lobehub/lobe-chat
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/lobehub-0.1.0/lobehub-0.1.0.tgz
+    version: 0.1.0
   mongodb:
   - apiVersion: v2
     appVersion: 7.0.5
@@ -404,4 +427,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-18T17:30:25.242881925Z"
+generated: "2026-03-08T16:50:28.994439663Z"
