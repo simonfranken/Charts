@@ -51,7 +51,7 @@ spec:
             {{- end }}
             {{- if .Values.rustfs.enabled }}
             - name: S3_ENDPOINT
-              value: "http://{{ .Release.Name }}-rustfs:9000"
+              value: {{ .Values.rustfs.endpoint | default (printf "http://%s-rustfs:9000" .Release.Name) | quote }}
             - name: S3_BUCKET
               value: {{ .Values.rustfs.bucket | quote }}
             - name: S3_ENABLE_PATH_STYLE

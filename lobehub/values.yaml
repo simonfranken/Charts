@@ -326,6 +326,12 @@ rustfs:
   existingSecret: "rustfs-creds"
   ## Bucket name to configure in LobeHub
   bucket: "lobe"
+  ## Public S3 endpoint URL used as S3_ENDPOINT (seen by both LobeHub server and browsers).
+  ## When set, this value is used instead of the auto-generated cluster-internal URL.
+  ## Set this to the public ingress URL of the RustFS API (port 9000), e.g.:
+  ##   "https://s3.example.com"
+  ## Leave empty to use the cluster-internal service URL (default, server-side only).
+  endpoint: ""
   ## Optional: domain for virtual-host style bucket access
   serverDomains: ""
   persistence:
