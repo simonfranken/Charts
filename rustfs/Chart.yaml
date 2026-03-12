@@ -1,0 +1,17 @@
+apiVersion: v2
+name: rustfs
+description: RustFS Helm chart for Kubernetes — high-performance S3-compatible object storage
+type: application
+version: 1.0.0
+appVersion: "latest"
+keywords:
+  - s3
+  - object-storage
+  - rustfs
+  - minio-compatible
+home: https://rustfs.com
+sources:
+  - https://github.com/rustfs/rustfs
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de

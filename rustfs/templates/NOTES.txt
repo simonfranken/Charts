@@ -1,0 +1,34 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+RustFS (S3-compatible object storage) can be accessed from within your cluster at:
+
+  S3 API:    http://{{ include "rustfs.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:9000
+  {{- if .Values.consoleEnabled }}
+  Console:   http://{{ include "rustfs.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:9001
+  {{- end }}
+
+To retrieve your credentials:
+
+  $ kubectl get secret {{ .Values.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.accessKey}" | base64 -d
+  $ kubectl get secret {{ .Values.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.secretKey}" | base64 -d
+
+{{- if .Values.consoleEnabled }}
+
+To access the RustFS console locally:
+
+  $ kubectl port-forward svc/{{ include "rustfs.fullname" . }} 9001:9001 -n {{ .Release.Namespace }}
+
+Then open http://localhost:9001 in your browser.
+{{- end }}
+
+{{- if not .Values.persistence.enabled }}
+
+WARNING: Persistence is disabled! Data will be lost when the pod is restarted.
+{{- end }}

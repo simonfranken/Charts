@@ -1,0 +1,94 @@
+# Default values for rustfs chart
+
+image:
+  repository: rustfs/rustfs
+  pullPolicy: IfNotPresent
+  # Overrides the image tag. Defaults to the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+# - name: regcred
+
+nameOverride: ""
+fullnameOverride: ""
+
+# ── RustFS settings ──────────────────────────────────────────────────────────
+# Name of an existing Secret containing the RustFS credentials.
+# The secret must contain keys: accessKey, secretKey
+# Create with: kubectl create secret generic rustfs-creds \
+#   --from-literal=accessKey=rustfsadmin \
+#   --from-literal=secretKey=your-secure-password
+existingSecret: "rustfs-creds"
+
+# Listening address for the S3 API
+address: ":9000"
+
+# Enable the RustFS web console on port 9001
+consoleEnabled: true
+
+# Optional: domain(s) for virtual-host style bucket access
+# e.g. "rustfs.example.com" — leave empty for path-style only
+serverDomains: ""
+
+# ── Persistence ──────────────────────────────────────────────────────────────
+persistence:
+  enabled: true
+  storageClass: ""
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+# ── Service ───────────────────────────────────────────────────────────────────
+service:
+  # S3 API port
+  apiPort: 9000
+  # Web console port
+  consolePort: 9001
+
+# ── Resource limits and requests ─────────────────────────────────────────────
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# ── Health probes ─────────────────────────────────────────────────────────────
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# ── Pod security context ──────────────────────────────────────────────────────
+# RustFS runs as non-root user 'rustfs' with UID 10001
+securityContext:
+  enabled: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+
+# ── Container security context ────────────────────────────────────────────────
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  # Size of the /tmp emptyDir volume when readOnlyRootFilesystem is true
+  tmpVolumeSize: 100Mi
+
+# ── Pod annotations ───────────────────────────────────────────────────────────
+podAnnotations: {}
+
+# ── Scheduling ────────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}

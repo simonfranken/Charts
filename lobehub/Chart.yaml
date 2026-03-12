@@ -2,7 +2,7 @@ apiVersion: v2
 name: lobehub
 description: LobeHub - Open-source AI chat platform with knowledge base, multimodal AI, and plugin support
 type: application
-version: 1.1.0
+version: 1.2.0
 appVersion: "latest"
 home: https://lobehub.com
 sources:
@@ -20,3 +20,7 @@ dependencies:
     version: "1.0.0"
     repository: "file://../paradedb"
     condition: paradedb.enabled
+  - name: rustfs
+    version: "1.0.0"
+    repository: "file://../rustfs"
+    condition: rustfs.enabled

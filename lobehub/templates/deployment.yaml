@@ -33,8 +33,9 @@ spec:
                 name: {{ include "lobehub.fullname" . }}
             - secretRef:
                 name: {{ include "lobehub.fullname" . }}
-          {{- if .Values.paradedb.enabled }}
+          {{- if or .Values.paradedb.enabled .Values.rustfs.enabled }}
           env:
+            {{- if .Values.paradedb.enabled }}
             - name: _DB_USER
               valueFrom:
                 secretKeyRef:
@@ -47,6 +48,29 @@ spec:
                   key: password
             - name: DATABASE_URL
               value: "postgresql://$(_DB_USER):$(_DB_PASSWORD)@{{ .Release.Name }}-paradedb:5432/{{ .Values.paradedb.postgresql.database }}"
+            {{- end }}
+            {{- if .Values.rustfs.enabled }}
+            - name: S3_ENDPOINT
+              value: "http://{{ .Release.Name }}-rustfs:9000"
+            - name: S3_BUCKET
+              value: {{ .Values.rustfs.bucket | quote }}
+            - name: S3_ENABLE_PATH_STYLE
+              value: "1"
+            - name: S3_SET_ACL
+              value: "0"
+            - name: LLM_VISION_IMAGE_USE_BASE64
+              value: "1"
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rustfs.existingSecret }}
+                  key: accessKey
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rustfs.existingSecret }}
+                  key: secretKey
+            {{- end }}
           {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}

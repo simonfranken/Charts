@@ -291,3 +291,24 @@ paradedb:
     size: 10Gi
     accessModes:
       - ReadWriteOnce
+
+## ──────────────────────────────────────────────
+## RustFS sub-chart (S3-compatible object storage)
+## Set enabled=true to deploy RustFS alongside LobeHub.
+## All S3_* environment variables will be auto-injected.
+## When enabled, the manual s3.* block is ignored.
+## ──────────────────────────────────────────────
+rustfs:
+  enabled: false
+  ## Name of an existing Secret with keys: accessKey, secretKey
+  existingSecret: "rustfs-creds"
+  ## Bucket name to configure in LobeHub
+  bucket: "lobe"
+  ## Optional: domain for virtual-host style bucket access
+  serverDomains: ""
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
