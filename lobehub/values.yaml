@@ -1,6 +1,6 @@
 ## LobeHub container image
 image:
-  repository: lobehub/lobehub
+  repository: lobehub/lobe-chat
   tag: "latest"
   pullPolicy: IfNotPresent
 
@@ -221,6 +221,17 @@ auth:
     id: ""
     issuer: ""
 
+  ## Generic OIDC provider (any OpenID Connect-compliant IdP)
+  ## Callback URL: https://<appUrl>/api/auth/callback/generic-oidc
+  ## Add "generic-oidc" to auth.ssoProviders when enabling this.
+  oidc:
+    enabled: false
+    ## Client ID from your OIDC provider
+    id: ""
+    ## OIDC issuer URL, e.g. https://sso.example.com/realms/myrealm
+    ## Find it in: https://<your-provider>/.well-known/openid-configuration
+    issuer: ""
+
 ## ──────────────────────────────────────────────
 ## Sensitive credentials (stored in a Secret)
 ## These values are kept in a Kubernetes Secret.
@@ -255,6 +266,9 @@ secrets:
 
   ## AWS Cognito client secret
   authCognitoSecret: ""
+
+  ## Generic OIDC client secret
+  authOidcSecret: ""
 
   ## SMTP password
   smtpPassword: ""

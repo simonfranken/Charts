@@ -111,6 +111,12 @@ data:
   AUTH_COGNITO_ISSUER: {{ .Values.auth.cognito.issuer | quote }}
   {{- end }}
 
+  ## ── Generic OIDC ────────────────────────────────────────────────────
+  {{- if .Values.auth.oidc.enabled }}
+  AUTH_GENERIC_OIDC_ID: {{ .Values.auth.oidc.id | quote }}
+  AUTH_GENERIC_OIDC_ISSUER: {{ .Values.auth.oidc.issuer | quote }}
+  {{- end }}
+
   ## ── Extra non-sensitive environment variables ────────────────────────
   {{- range $key, $val := .Values.extraEnv }}
   {{ $key }}: {{ $val | quote }}
