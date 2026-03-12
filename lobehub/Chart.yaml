@@ -21,6 +21,6 @@ dependencies:
     repository: "https://simonfranken.github.io/Charts"
     condition: paradedb.enabled
   - name: rustfs
-    version: "1.0.2"
+    version: "1.0.1"
     repository: "https://simonfranken.github.io/Charts"
     condition: rustfs.enabled
