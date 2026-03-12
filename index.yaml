@@ -75,6 +75,37 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-12T13:09:30.7032129Z"
+    dependencies:
+    - condition: paradedb.enabled
+      name: paradedb
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.0
+    - condition: rustfs.enabled
+      name: rustfs
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.3
+    description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
+      AI, and plugin support
+    digest: 4d05c5c1eccee48851f37344b44b63800b1b39c5b22a5469cf3c5e5e1a22e99c
+    home: https://lobehub.com
+    keywords:
+    - ai
+    - chat
+    - llm
+    - nextjs
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: lobehub
+    sources:
+    - https://github.com/lobehub/lobe-chat
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/lobehub-1.2.7/lobehub-1.2.7.tgz
+    version: 1.2.7
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-12T13:08:18.093444912Z"
     dependencies:
     - condition: paradedb.enabled
@@ -819,4 +850,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-12T13:08:18.295777381Z"
+generated: "2026-03-12T13:09:30.703332255Z"
