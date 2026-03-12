@@ -1,0 +1,82 @@
+# Default values for paradedb chart
+
+image:
+  repository: paradedb/paradedb
+  pullPolicy: IfNotPresent
+  # Overrides the image tag. Defaults to the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+# - name: regcred
+
+nameOverride: ""
+fullnameOverride: ""
+
+# ── PostgreSQL settings ──────────────────────────────────────────────────────
+postgresql:
+  # Database name (will be created on first start)
+  database: "lobechat"
+  # Name of an existing Secret containing the database credentials.
+  # The secret must contain keys: username, password
+  # Create with: kubectl create secret generic paradedb-creds \
+  #   --from-literal=username=postgres --from-literal=password=yourpassword
+  existingSecret: "paradedb-creds"
+
+# ── Persistence ──────────────────────────────────────────────────────────────
+persistence:
+  enabled: true
+  storageClass: ""
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+# ── Service ───────────────────────────────────────────────────────────────────
+service:
+  port: 5432
+
+# ── Resource limits and requests ─────────────────────────────────────────────
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# ── Health probes ─────────────────────────────────────────────────────────────
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# ── Pod security context ──────────────────────────────────────────────────────
+securityContext:
+  enabled: true
+  runAsUser: 999
+  runAsGroup: 999
+  fsGroup: 999
+
+# ── Container security context ────────────────────────────────────────────────
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  # Size of the /tmp emptyDir volume when readOnlyRootFilesystem is true
+  tmpVolumeSize: 100Mi
+
+# ── Pod annotations ───────────────────────────────────────────────────────────
+podAnnotations: {}
+
+# ── Scheduling ────────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,19 @@
+apiVersion: v2
+name: paradedb
+description: ParadeDB Helm chart for Kubernetes — PostgreSQL with pgvector and pg_search, as required by LobeHub
+type: application
+version: 1.0.0
+appVersion: "latest-pg17"
+keywords:
+  - postgresql
+  - paradedb
+  - pgvector
+  - pg_search
+  - database
+  - sql
+home: https://www.paradedb.com
+sources:
+  - https://github.com/paradedb/paradedb
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de

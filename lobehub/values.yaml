@@ -123,12 +123,14 @@ config:
   ## Assistant market index URL override (optional)
   agentsIndexUrl: ""
 
-## ──────────────────────────────────────────────
-## Database (PostgreSQL with pgvector)
-## External service — provide a full DSN
-## ──────────────────────────────────────────────
+## ── Database (PostgreSQL with pgvector + pg_search) ──────────────────
+## Option A: Use the bundled ParadeDB sub-chart (set paradedb.enabled=true).
+##   DATABASE_URL is constructed automatically — do not set database.url.
+## Option B: Point at an external database (paradedb.enabled=false).
+##   Set database.url to a full PostgreSQL DSN.
+## ─────────────────────────────────────────────────────────────────────
 database:
-  ## Full PostgreSQL connection string
+  ## Full PostgreSQL connection string — used only when paradedb.enabled=false.
   ## Example: "postgresql://postgres:password@postgres-host:5432/lobechat"
   url: ""
 
@@ -269,3 +271,23 @@ extraSecrets: {}
 # extraSecrets:
 #   OPENAI_API_KEY: "sk-..."
 #   ANTHROPIC_API_KEY: "sk-ant-..."
+
+## ──────────────────────────────────────────────
+## ParadeDB sub-chart (PostgreSQL + pgvector + pg_search)
+## Set enabled=true to deploy ParadeDB alongside LobeHub.
+## DATABASE_URL will be auto-constructed from the sub-chart service.
+## When enabled, database.url is ignored.
+## ──────────────────────────────────────────────
+paradedb:
+  enabled: false
+  postgresql:
+    ## Name of an existing Secret with keys: username, password
+    existingSecret: "paradedb-creds"
+    ## Database name (will be created on first start)
+    database: "lobechat"
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce

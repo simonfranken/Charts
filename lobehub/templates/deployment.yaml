@@ -33,6 +33,21 @@ spec:
                 name: {{ include "lobehub.fullname" . }}
             - secretRef:
                 name: {{ include "lobehub.fullname" . }}
+          {{- if .Values.paradedb.enabled }}
+          env:
+            - name: _DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.paradedb.postgresql.existingSecret }}
+                  key: username
+            - name: _DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.paradedb.postgresql.existingSecret }}
+                  key: password
+            - name: DATABASE_URL
+              value: "postgresql://$(_DB_USER):$(_DB_PASSWORD)@{{ .Release.Name }}-paradedb:5432/{{ .Values.paradedb.postgresql.database }}"
+          {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

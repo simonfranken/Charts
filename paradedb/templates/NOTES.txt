@@ -1,0 +1,28 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+ParadeDB (PostgreSQL with pgvector + pg_search) can be accessed via port 5432 on the following DNS name from within your cluster:
+
+  {{ include "paradedb.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+
+To get the credentials, run:
+
+  $ kubectl get secret {{ .Values.postgresql.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.username}" | base64 -d
+  $ kubectl get secret {{ .Values.postgresql.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 -d
+
+To connect to your database:
+
+  $ kubectl run {{ include "paradedb.fullname" . }}-client --rm -it --image=paradedb/paradedb:latest-pg17 --restart=Never \
+      --env=PGPASSWORD=$(kubectl get secret {{ .Values.postgresql.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 -d) \
+      --command -- psql --host {{ include "paradedb.fullname" . }} -U $(kubectl get secret {{ .Values.postgresql.existingSecret }} -n {{ .Release.Namespace }} -o jsonpath="{.data.username}" | base64 -d) -d {{ .Values.postgresql.database }}
+
+{{- if not .Values.persistence.enabled }}
+
+WARNING: Persistence is disabled! Data will be lost when the pod is restarted.
+{{- end }}
