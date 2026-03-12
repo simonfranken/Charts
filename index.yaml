@@ -572,6 +572,28 @@ entries:
   rustfs:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-12T11:47:26.255645065Z"
+    description: RustFS Helm chart for Kubernetes — high-performance S3-compatible
+      object storage
+    digest: 06a9267c56728e736d442fccdbd02f5106c8930dad46d0b60ee7add7d060eacf
+    home: https://rustfs.com
+    keywords:
+    - s3
+    - object-storage
+    - rustfs
+    - minio-compatible
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: rustfs
+    sources:
+    - https://github.com/rustfs/rustfs
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/rustfs-1.0.1/rustfs-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-12T11:35:12.946644487Z"
     description: RustFS Helm chart for Kubernetes — high-performance S3-compatible
       object storage
@@ -629,4 +651,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-12T11:37:02.573178426Z"
+generated: "2026-03-12T11:47:26.255718384Z"
