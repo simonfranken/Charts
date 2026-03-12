@@ -45,6 +45,37 @@ service:
   # Web console port
   consolePort: 9001
 
+# ── Ingress ───────────────────────────────────────────────────────────────────
+# Expose the S3 API (port 9000) and/or the web console (port 9001) externally.
+# The S3 API ingress is required for browsers to fetch uploaded files directly.
+ingress:
+  # S3 API ingress — required for public bucket access from outside the cluster
+  api:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Public hostname for the S3 API — must match S3_PUBLIC_DOMAIN in LobeHub
+    host: "s3.example.com"
+    tls: []
+      # - secretName: rustfs-api-tls
+      #   hosts:
+      #     - s3.example.com
+
+  # Web console ingress — optional, for accessing the RustFS admin UI
+  console:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+    host: "s3-console.example.com"
+    tls: []
+      # - secretName: rustfs-console-tls
+      #   hosts:
+      #     - s3-console.example.com
+
 # ── Resource limits and requests ─────────────────────────────────────────────
 resources:
   requests:

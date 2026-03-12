@@ -2,7 +2,7 @@ apiVersion: v2
 name: rustfs
 description: RustFS Helm chart for Kubernetes — high-performance S3-compatible object storage
 type: application
-version: 1.0.3
+version: 1.0.4
 appVersion: "latest"
 keywords:
   - s3

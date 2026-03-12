@@ -1,0 +1,63 @@
+{{- if .Values.ingress.api.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "rustfs.fullname" . }}-api
+  labels:
+    {{- include "rustfs.labels" . | nindent 4 }}
+  {{- with .Values.ingress.api.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.api.className }}
+  ingressClassName: {{ .Values.ingress.api.className }}
+  {{- end }}
+  {{- if .Values.ingress.api.tls }}
+  tls:
+    {{- toYaml .Values.ingress.api.tls | nindent 4 }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.api.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "rustfs.fullname" . }}
+                port:
+                  name: api
+{{- end }}
+{{- if .Values.ingress.console.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "rustfs.fullname" . }}-console
+  labels:
+    {{- include "rustfs.labels" . | nindent 4 }}
+  {{- with .Values.ingress.console.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.console.className }}
+  ingressClassName: {{ .Values.ingress.console.className }}
+  {{- end }}
+  {{- if .Values.ingress.console.tls }}
+  tls:
+    {{- toYaml .Values.ingress.console.tls | nindent 4 }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.console.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "rustfs.fullname" . }}
+                port:
+                  name: console
+{{- end }}
