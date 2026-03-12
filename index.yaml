@@ -75,6 +75,37 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-12T13:08:18.093444912Z"
+    dependencies:
+    - condition: paradedb.enabled
+      name: paradedb
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.0
+    - condition: rustfs.enabled
+      name: rustfs
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.2
+    description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
+      AI, and plugin support
+    digest: f35ed688f29f9cf10a8b41a9a7026e77ed277d3c5f20829685e03813428179a8
+    home: https://lobehub.com
+    keywords:
+    - ai
+    - chat
+    - llm
+    - nextjs
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: lobehub
+    sources:
+    - https://github.com/lobehub/lobe-chat
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/lobehub-1.2.6/lobehub-1.2.6.tgz
+    version: 1.2.6
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-12T13:01:06.914766348Z"
     dependencies:
     - condition: paradedb.enabled
@@ -665,6 +696,28 @@ entries:
   rustfs:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-12T13:08:18.295650835Z"
+    description: RustFS Helm chart for Kubernetes — high-performance S3-compatible
+      object storage
+    digest: 219f01a41535d7e15fdbcfb5398da65cf308a50d07f732a2156ebdf43ea27f1a
+    home: https://rustfs.com
+    keywords:
+    - s3
+    - object-storage
+    - rustfs
+    - minio-compatible
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: rustfs
+    sources:
+    - https://github.com/rustfs/rustfs
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/rustfs-1.0.3/rustfs-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-12T12:59:04.063424702Z"
     description: RustFS Helm chart for Kubernetes — high-performance S3-compatible
       object storage
@@ -766,4 +819,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-12T13:01:06.914858141Z"
+generated: "2026-03-12T13:08:18.295777381Z"
