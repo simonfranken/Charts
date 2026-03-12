@@ -75,6 +75,33 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-12T11:06:56.107454931Z"
+    dependencies:
+    - condition: paradedb.enabled
+      name: paradedb
+      repository: file://../paradedb
+      version: 1.0.0
+    description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
+      AI, and plugin support
+    digest: fbfc0e2dbbb75d4815b1d8305ed0f4c6d0ed31c3eb4b09b2a764312c6403213e
+    home: https://lobehub.com
+    keywords:
+    - ai
+    - chat
+    - llm
+    - nextjs
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: lobehub
+    sources:
+    - https://github.com/lobehub/lobe-chat
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/lobehub-1.1.0/lobehub-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-08T17:25:56.079514351Z"
     description: LobeHub - Open-source AI chat platform with knowledge base, multimodal
       AI, and plugin support
@@ -315,6 +342,31 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/outline-wiki-0.1.0/outline-wiki-0.1.0.tgz
     version: 0.1.0
+  paradedb:
+  - apiVersion: v2
+    appVersion: latest-pg17
+    created: "2026-03-12T11:06:56.233715521Z"
+    description: ParadeDB Helm chart for Kubernetes — PostgreSQL with pgvector and
+      pg_search, as required by LobeHub
+    digest: 24bd17ebad4d5f75209d184b92861ade51e6c31d5d85797bb1c79b1cc8735ea2
+    home: https://www.paradedb.com
+    keywords:
+    - postgresql
+    - paradedb
+    - pgvector
+    - pg_search
+    - database
+    - sql
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: paradedb
+    sources:
+    - https://github.com/paradedb/paradedb
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/paradedb-1.0.0/paradedb-1.0.0.tgz
+    version: 1.0.0
   pocket-id:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -492,4 +544,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-08T18:34:56.01647609Z"
+generated: "2026-03-12T11:06:56.233802613Z"
