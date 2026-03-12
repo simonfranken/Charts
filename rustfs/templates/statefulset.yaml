@@ -82,6 +82,8 @@ spec:
             {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
             - name: tmp
               mountPath: /tmp
+            - name: logs
+              mountPath: /logs
             {{- end }}
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
@@ -112,6 +114,9 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: {{ .Values.containerSecurityContext.tmpVolumeSize }}
+        - name: logs
+          emptyDir:
+            sizeLimit: 500Mi
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
