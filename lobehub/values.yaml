@@ -1,6 +1,6 @@
 ## LobeHub container image
 image:
-  repository: lobehub/lobe-chat
+  repository: lobehub/lobehub
   tag: "latest"
   pullPolicy: IfNotPresent
 
