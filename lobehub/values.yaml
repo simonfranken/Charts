@@ -237,6 +237,14 @@ auth:
 ## These values are kept in a Kubernetes Secret.
 ## ──────────────────────────────────────────────
 secrets:
+  ## Name of a pre-existing Kubernetes Secret to use instead of the
+  ## chart-managed Secret. When set, the chart will NOT create its own
+  ## Secret and will mount this Secret via envFrom instead.
+  ## The Secret must contain all required keys as environment variable
+  ## names (e.g. KEY_VAULTS_SECRET, AUTH_SECRET, JWKS_KEY, etc.).
+  ## When set, all other secrets.* values below are ignored.
+  existingSecret: ""
+
   ## Key used to encrypt secrets stored in the database.
   ## Generate with: openssl rand -base64 32
   ## WARNING: Never change this after initial deployment.

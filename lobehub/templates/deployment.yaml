@@ -32,7 +32,7 @@ spec:
             - configMapRef:
                 name: {{ include "lobehub.fullname" . }}
             - secretRef:
-                name: {{ include "lobehub.fullname" . }}
+                name: {{ .Values.secrets.existingSecret | default (include "lobehub.fullname" .) }}
           {{- if or .Values.paradedb.enabled .Values.rustfs.enabled }}
           env:
             {{- if .Values.paradedb.enabled }}
