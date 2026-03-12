@@ -320,6 +320,12 @@ rustfs:
   bucket: "lobe"
   ## Optional: domain for virtual-host style bucket access
   serverDomains: ""
+  ## Public URL of the RustFS S3 API, reachable from browsers.
+  ## Set this to the hostname configured in rustfs.ingress.api.host (with scheme).
+  ## When set: S3_PUBLIC_DOMAIN is injected and LLM_VISION_IMAGE_USE_BASE64 is
+  ## automatically set to "0" (images are fetched by URL, not base64-encoded).
+  ## Example: "https://s3.example.com"
+  publicDomain: ""
   persistence:
     enabled: true
     storageClass: ""
