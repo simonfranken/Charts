@@ -562,6 +562,23 @@ entries:
     version: 0.1.0
   outline-wiki:
   - apiVersion: v2
+    appVersion: 1.6.1
+    created: "2026-03-22T16:10:01.592616042Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 24.1.2
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.7.27
+    description: A Helm chart for Outline Wiki
+    digest: faa414af42cb0fa8be89147bca38a8a30ca8abf3926ceb41defca3fc1ac73481
+    name: outline-wiki
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/outline-wiki-0.1.9/outline-wiki-0.1.9.tgz
+    version: 0.1.9
+  - apiVersion: v2
     appVersion: 1.3.0
     created: "2026-01-26T14:11:42.866253161Z"
     dependencies:
@@ -1027,4 +1044,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-12T16:39:13.516741203Z"
+generated: "2026-03-22T16:10:01.592742241Z"
