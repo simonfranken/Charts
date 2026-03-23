@@ -2,5 +2,16 @@ apiVersion: v2
 name: mongodb
 description: A Helm chart for MongoDB using the official Docker image
 type: application
-version: 0.1.0
-appVersion: "7.0.5" # Or your desired MongoDB version
+version: 0.1.1
+appVersion: "7.0.5"
+home: https://www.mongodb.com/
+sources:
+  - https://github.com/docker-library/mongo
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - mongodb
+  - database
+  - nosql
+kubeVersion: ">=1.24.0-0"
