@@ -31,6 +31,27 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/basic-0.1.1/basic-0.1.1.tgz
     version: 0.1.1
+  excalidash:
+  - apiVersion: v2
+    appVersion: 0.4.28
+    created: "2026-03-23T10:27:30.749637905Z"
+    description: ExcaliDash - self-hosted dashboard and organizer for Excalidraw
+    digest: dc5788ad83f6d6a47d8b501836a4e32f84cec469792105e7782c4ccbd15d9941
+    home: https://github.com/ZimengXiong/ExcaliDash
+    keywords:
+    - excalidraw
+    - dashboard
+    - collaboration
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: excalidash
+    sources:
+    - https://github.com/ZimengXiong/ExcaliDash
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/excalidash-0.1.0/excalidash-0.1.0.tgz
+    version: 0.1.0
   headscale:
   - apiVersion: v2
     appVersion: v0.26
@@ -1044,4 +1065,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-22T16:10:01.592742241Z"
+generated: "2026-03-23T10:27:30.749744929Z"
