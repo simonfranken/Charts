@@ -1,0 +1,16 @@
+apiVersion: v2
+name: excalidash
+description: ExcaliDash - self-hosted dashboard and organizer for Excalidraw
+type: application
+version: 0.1.0
+appVersion: "0.4.28"
+home: https://github.com/ZimengXiong/ExcaliDash
+sources:
+  - https://github.com/ZimengXiong/ExcaliDash
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - excalidraw
+  - dashboard
+  - collaboration

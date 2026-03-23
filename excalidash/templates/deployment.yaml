@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "excalidash.fullname" . }}
+  labels:
+    {{- include "excalidash.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "excalidash.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "excalidash.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.securityContext.runAsGroup }}
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+      {{- end }}
+      containers:
+        - name: backend
+          image: "{{ .Values.image.backend.repository }}:{{ .Values.image.backend.tag }}"
+          imagePullPolicy: {{ .Values.image.backend.pullPolicy }}
+          ports:
+            - name: backend
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "excalidash.fullname" . }}-backend
+            - secretRef:
+                name: {{ .Values.secrets.existingSecret | default (include "excalidash.fullname" .) }}
+          volumeMounts:
+            - name: backend-data
+              mountPath: /app/prisma
+          livenessProbe:
+            {{- toYaml .Values.probes.backend.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.probes.backend.readiness | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.backend | nindent 12 }}
+        - name: frontend
+          image: "{{ .Values.image.frontend.repository }}:{{ .Values.image.frontend.tag }}"
+          imagePullPolicy: {{ .Values.image.frontend.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "excalidash.fullname" . }}-frontend
+          livenessProbe:
+            {{- toYaml .Values.probes.frontend.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.probes.frontend.readiness | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources.frontend | nindent 12 }}
+      volumes:
+        - name: backend-data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "excalidash.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      affinity:
+        {{- toYaml .Values.affinity | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
