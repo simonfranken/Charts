@@ -2,7 +2,7 @@ apiVersion: v2
 name: affine
 description: AFFiNE - Open-source workspace for docs, whiteboards, and knowledge
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "stable"
 home: https://affine.pro
 sources:

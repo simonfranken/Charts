@@ -5,7 +5,7 @@ Deploys [AFFiNE](https://affine.pro) to Kubernetes using the official container 
 This chart follows AFFiNE's official `docker-compose.yml` layout:
 
 - app container (`ghcr.io/toeverything/affine`)
-- migration step (`node ./scripts/self-host-predeploy.js`) as a Helm pre-install/pre-upgrade hook Job
+- migration step (`node ./scripts/self-host-predeploy.js`) as a Helm post-install/pre-upgrade hook Job
 - Redis for cache/session
 - PostgreSQL (via ParadeDB for pgvector support)
 - persistent storage for `/root/.affine/storage` and `/root/.affine/config`
@@ -57,4 +57,4 @@ redis:
 - When `paradedb.enabled=true`, `DATABASE_URL` is auto-generated from the sub-chart service and credentials secret.
 - When `redis.enabled=true`, `REDIS_SERVER_HOST` points to `<release>-redis` and password is injected from `redis.auth.existingSecret`.
 - If you disable sub-charts, set external connection values under `database.*` and `externalRedis.*`.
-- Migration runs before install/upgrade and is automatically cleaned up after success.
+- Migration runs after install and before upgrade, and is automatically cleaned up after success.
