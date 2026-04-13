@@ -1,5 +1,36 @@
 apiVersion: v1
 entries:
+  affine:
+  - apiVersion: v2
+    appVersion: stable
+    created: "2026-04-13T08:16:06.931547268Z"
+    dependencies:
+    - condition: paradedb.enabled
+      name: paradedb
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://simonfranken.github.io/Charts
+      version: 1.0.1
+    description: AFFiNE - Open-source workspace for docs, whiteboards, and knowledge
+    digest: 31f6efdf6c73406bc2542629b266d717cefef81f1e3598a7c091c68a4a6328da
+    home: https://affine.pro
+    keywords:
+    - affine
+    - collaboration
+    - workspace
+    - knowledge-base
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: affine
+    sources:
+    - https://github.com/toeverything/AFFiNE
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/affine-0.1.0/affine-0.1.0.tgz
+    version: 0.1.0
   basic:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -1065,4 +1096,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-23T10:27:30.749744929Z"
+generated: "2026-04-13T08:16:06.931675354Z"
