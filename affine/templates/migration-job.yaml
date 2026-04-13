@@ -1,0 +1,94 @@
+{{- if .Values.migration.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "affine.fullname" . }}-migration
+  labels:
+    {{- include "affine.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ .Values.migration.backoffLimit }}
+  {{- if .Values.migration.ttlSecondsAfterFinished }}
+  ttlSecondsAfterFinished: {{ .Values.migration.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "affine.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: OnFailure
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.securityContext.runAsGroup }}
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: affine-migration
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["sh", "-c", "node ./scripts/self-host-predeploy.js"]
+          envFrom:
+            - configMapRef:
+                name: {{ include "affine.fullname" . }}
+            - secretRef:
+                name: {{ .Values.secrets.existingSecret | default (include "affine.fullname" .) }}
+          env:
+            {{- if .Values.paradedb.enabled }}
+            - name: _DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.paradedb.postgresql.existingSecret }}
+                  key: username
+            - name: _DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.paradedb.postgresql.existingSecret }}
+                  key: password
+            - name: DATABASE_URL
+              value: "postgresql://$(_DB_USER):$(_DB_PASSWORD)@{{ .Release.Name }}-paradedb:5432/{{ .Values.paradedb.postgresql.database }}"
+            {{- else if not .Values.database.url }}
+            - name: DATABASE_URL
+              value: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@{{ .Values.database.host }}:{{ .Values.database.port }}/{{ .Values.database.name }}"
+            {{- end }}
+            {{- if and .Values.redis.enabled .Values.redis.auth.enabled (not .Values.redis.auth.acl.enabled) }}
+            - name: REDIS_SERVER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.auth.existingSecret }}
+                  key: password
+            {{- end }}
+            {{- range .Values.extraEnvVars }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          volumeMounts:
+            - name: affine-storage
+              mountPath: /root/.affine/storage
+            - name: affine-config
+              mountPath: /root/.affine/config
+          resources:
+            {{- toYaml .Values.migration.resources | nindent 12 }}
+      volumes:
+        - name: affine-storage
+          {{- if .Values.persistence.storage.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.storage.existingClaim | default (printf "%s-storage" (include "affine.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: affine-config
+          {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.config.existingClaim | default (printf "%s-config" (include "affine.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+{{- end }}

@@ -1,0 +1,26 @@
+apiVersion: v2
+name: affine
+description: AFFiNE - Open-source workspace for docs, whiteboards, and knowledge
+type: application
+version: 0.1.0
+appVersion: "stable"
+home: https://affine.pro
+sources:
+  - https://github.com/toeverything/AFFiNE
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - affine
+  - collaboration
+  - workspace
+  - knowledge-base
+dependencies:
+  - name: paradedb
+    version: "1.0.0"
+    repository: "https://simonfranken.github.io/Charts"
+    condition: paradedb.enabled
+  - name: redis
+    version: "1.0.1"
+    repository: "https://simonfranken.github.io/Charts"
+    condition: redis.enabled

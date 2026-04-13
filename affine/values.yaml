@@ -1,0 +1,169 @@
+## AFFiNE container image
+image:
+  repository: ghcr.io/toeverything/affine
+  tag: "stable"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+## Service configuration
+service:
+  type: ClusterIP
+  port: 3010
+
+## Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: affine.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+    # - secretName: affine-tls
+    #   hosts:
+    #     - affine.example.com
+
+## Resource requests and limits
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+## Pod security context
+securityContext:
+  enabled: false
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+## Liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+## AFFiNE runtime options
+config:
+  affineIndexerEnabled: false
+
+## Persistence for compose-equivalent mounts:
+## - /root/.affine/storage
+## - /root/.affine/config
+persistence:
+  storage:
+    enabled: true
+    existingClaim: ""
+    storageClass: ""
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+  config:
+    enabled: true
+    existingClaim: ""
+    storageClass: ""
+    size: 2Gi
+    accessModes:
+      - ReadWriteOnce
+
+## External database (used only when paradedb.enabled=false)
+database:
+  url: ""
+  host: "postgres"
+  port: 5432
+  name: "affine"
+  username: ""
+  password: ""
+
+## External redis (used only when redis.enabled=false)
+externalRedis:
+  host: "redis"
+  port: 6379
+  password: ""
+
+## Sensitive values
+secrets:
+  existingSecret: ""
+
+## Extra non-sensitive environment variables (key: value map)
+extraEnv: {}
+
+## Extra secret environment variables (key: value map, stored in Secret)
+extraSecrets: {}
+
+## Extra environment entries as full objects
+## Example:
+## extraEnvVars:
+##   - name: TZ
+##     value: Europe/Berlin
+extraEnvVars: []
+
+## Migration job settings
+migration:
+  enabled: true
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+## ParadeDB sub-chart (PostgreSQL + pgvector + pg_search)
+paradedb:
+  enabled: true
+  postgresql:
+    existingSecret: "paradedb-creds"
+    database: "affine"
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+
+## Redis sub-chart
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    existingSecret: "redis-creds"
+    acl:
+      enabled: false
+  persistence:
+    enabled: false
+    storageClass: ""
+    size: 1Gi
+    accessModes:
+      - ReadWriteOnce

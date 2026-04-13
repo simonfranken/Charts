@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "affine.fullname" . }}
+  labels:
+    {{- include "affine.labels" . | nindent 4 }}
+data:
+  AFFINE_INDEXER_ENABLED: {{ ternary "true" "false" .Values.config.affineIndexerEnabled | quote }}
+  {{- if .Values.paradedb.enabled }}
+  DB_HOST: {{ printf "%s-paradedb" .Release.Name | quote }}
+  DB_PORT: {{ default 5432 .Values.paradedb.service.port | toString | quote }}
+  DB_NAME: {{ .Values.paradedb.postgresql.database | quote }}
+  {{- else }}
+  DB_HOST: {{ .Values.database.host | quote }}
+  DB_PORT: {{ .Values.database.port | toString | quote }}
+  DB_NAME: {{ .Values.database.name | quote }}
+  {{- end }}
+  {{- if .Values.redis.enabled }}
+  REDIS_SERVER_HOST: {{ printf "%s-redis" .Release.Name | quote }}
+  REDIS_SERVER_PORT: {{ default 6379 .Values.redis.service.port | toString | quote }}
+  {{- else }}
+  REDIS_SERVER_HOST: {{ .Values.externalRedis.host | quote }}
+  REDIS_SERVER_PORT: {{ .Values.externalRedis.port | toString | quote }}
+  {{- end }}
+  {{- range $key, $val := .Values.extraEnv }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
