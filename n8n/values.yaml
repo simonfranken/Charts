@@ -1,6 +1,6 @@
 image:
   repository: docker.n8n.io/n8nio/n8n
-  tag: "latest"
+  tag: "1.49.0"
   pullPolicy: IfNotPresent
 
 replicaCount: 1

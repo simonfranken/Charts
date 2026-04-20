@@ -1,11 +1,11 @@
 image:
   backend:
     repository: zimengxiong/excalidash-backend
-    tag: "latest"
+    tag: "v0.4.28"
     pullPolicy: IfNotPresent
   frontend:
     repository: zimengxiong/excalidash-frontend
-    tag: "latest"
+    tag: "v0.4.28"
     pullPolicy: IfNotPresent
 
 replicaCount: 1

@@ -2,8 +2,19 @@ apiVersion: v2
 name: outline-wiki
 description: A Helm chart for Outline Wiki
 type: application
-version: 0.1.9
+version: 0.1.10
 appVersion: "1.6.1"
+home: https://www.getoutline.com/
+sources:
+  - https://github.com/outline/outline
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - outline
+  - wiki
+  - knowledge-base
+kubeVersion: ">=1.24.0-0"
 dependencies:
   - name: redis
     version: 24.1.2

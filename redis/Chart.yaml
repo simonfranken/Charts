@@ -2,7 +2,7 @@ apiVersion: v2
 name: redis
 description: A lightweight Redis cache Helm chart for Kubernetes
 type: application
-version: 1.0.1
+version: 1.0.2
 appVersion: "7.4"
 keywords:
   - redis
@@ -15,3 +15,4 @@ sources:
 maintainers:
   - name: Simon Franken
     email: mail@simon-franken.de
+kubeVersion: ">=1.24.0-0"

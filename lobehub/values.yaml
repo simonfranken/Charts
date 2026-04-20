@@ -1,7 +1,7 @@
 ## LobeHub container image
 image:
   repository: lobehub/lobehub
-  tag: "latest"
+  tag: "v2.1.44"
   pullPolicy: IfNotPresent
 
 replicaCount: 1

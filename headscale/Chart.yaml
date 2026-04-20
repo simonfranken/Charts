@@ -2,5 +2,16 @@ apiVersion: v2
 name: headscale
 description: A Helm chart for deploying Headscale
 type: application
-version: 0.2.1
+version: 0.2.2
 appVersion: "v0.26"
+home: https://github.com/juanfont/headscale
+sources:
+  - https://github.com/juanfont/headscale
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - headscale
+  - tailscale
+  - vpn
+kubeVersion: ">=1.24.0-0"

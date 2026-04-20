@@ -2,8 +2,20 @@ apiVersion: v2
 name: tailscale-subnet-router
 description: Deploy tailscale/headscale subnet router.
 type: application
-version: 0.1.2
-appVersion: "latest"
+version: 0.1.3
+appVersion: "v1.96.3"
+home: https://tailscale.com/
+sources:
+  - https://github.com/tailscale/tailscale
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
+keywords:
+  - tailscale
+  - headscale
+  - subnet-router
+  - networking
+kubeVersion: ">=1.24.0-0"
 
 dependencies:
   - name: ingress-nginx

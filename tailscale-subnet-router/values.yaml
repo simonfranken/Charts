@@ -2,7 +2,7 @@ replicaCount: 1 # Number of pod replicas for high availability (keep 1 for subne
 
 image:
   repository: ghcr.io/tailscale/tailscale # Image registry for tailscale container
-  tag: latest # Image tag, e.g., version or 'latest'
+  tag: v1.96.3 # Image tag, e.g., version or 'latest'
   pullPolicy: Always # Kubernetes imagePullPolicy (IfNotPresent/Always/etc)
 
 serviceAccount:
