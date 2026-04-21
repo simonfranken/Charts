@@ -154,6 +154,23 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
     version: 0.1.0
+  hermes:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-04-21T08:59:08.340633646Z"
+    description: Hermes Agent Helm chart for Kubernetes
+    digest: 70c889ec7a227ae411b0b42b11d0e6a7b3ba5e2afd2815b9c25735d4ebfc11f7
+    home: https://github.com/NousResearch/hermes-agent
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: hermes
+    sources:
+    - https://github.com/NousResearch/hermes-agent
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/hermes-0.1.0/hermes-0.1.0.tgz
+    version: 0.1.0
   lobehub:
   - apiVersion: v2
     appVersion: latest
@@ -1126,4 +1143,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-13T14:23:36.628137158Z"
+generated: "2026-04-21T08:59:08.340727967Z"
