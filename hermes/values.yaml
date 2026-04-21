@@ -60,6 +60,31 @@ ingress:
 podAnnotations: {}
 podLabels: {}
 
+podSecurityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+containerSecurityContext:
+  enabled: true
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+
+volumePermissions:
+  enabled: false
+  image:
+    repository: busybox
+    tag: "1.36"
+    pullPolicy: IfNotPresent
+  securityContext:
+    runAsUser: 0
+    runAsNonRoot: false
+  chown:
+    user: 1000
+    group: 1000
+  chmod: "0775"
+
 nodeSelector: {}
 tolerations: []
 affinity: {}
