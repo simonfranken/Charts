@@ -26,6 +26,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      serviceAccountName: {{ include "hermes.fullname" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: gateway
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -51,6 +54,14 @@ spec:
                 name: {{ . }}
             {{- end }}
           {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: gateway
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.gateway.resources | nindent 12 }}
           volumeMounts:
@@ -81,6 +92,14 @@ spec:
                 name: {{ . }}
             {{- end }}
           {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: dashboard
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.dashboard.resources | nindent 12 }}
           volumeMounts:

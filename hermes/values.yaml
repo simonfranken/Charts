@@ -1,12 +1,18 @@
 image:
   repository: nousresearch/hermes-agent
-  tag: "latest"
+  tag: "v2026.4.16"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 
 nameOverride: ""
 fullnameOverride: ""
+
+# Pod-level security context
+podSecurityContext:
+  runAsUser: 10000
+  runAsGroup: 10000
+  fsGroup: 10000
 
 statefulset:
   replicas: 1
@@ -15,11 +21,19 @@ gateway:
   args:
     - gateway
     - run
-  env: []
+  env:
+    - name: API_SERVER_HOST
+      value: "0.0.0.0"
   envFrom:
     secrets: []
     configMaps: []
-  resources: {}
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2
+      memory: 2Gi
 
 dashboard:
   args:
@@ -33,7 +47,13 @@ dashboard:
   envFrom:
     secrets: []
     configMaps: []
-  resources: {}
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 
 persistence:
   enabled: true
@@ -56,6 +76,11 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
 
 podAnnotations: {}
 podLabels: {}
