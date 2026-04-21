@@ -1,0 +1,65 @@
+image:
+  repository: nousresearch/hermes-agent
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+statefulset:
+  replicas: 1
+
+gateway:
+  args:
+    - gateway
+    - run
+  env: []
+  envFrom:
+    secrets: []
+    configMaps: []
+  resources: {}
+
+dashboard:
+  args:
+    - dashboard
+    - --host
+    - 0.0.0.0
+    - --insecure
+  env:
+    - name: GATEWAY_HEALTH_URL
+      value: http://127.0.0.1:8642
+  envFrom:
+    secrets: []
+    configMaps: []
+  resources: {}
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClass: ""
+  annotations: {}
+
+service:
+  type: ClusterIP
+  port: 9119
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: hermes-dashboard.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
