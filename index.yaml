@@ -849,6 +849,30 @@ entries:
   paradedb:
   - apiVersion: v2
     appVersion: latest-pg17
+    created: "2026-04-27T14:22:07.083395412Z"
+    description: ParadeDB Helm chart for Kubernetes — PostgreSQL with pgvector and
+      pg_search, as required by LobeHub
+    digest: d663f1194d3e62f4e3af23d70d0253228aa4d137d223e0baa8c641866c83498c
+    home: https://www.paradedb.com
+    keywords:
+    - postgresql
+    - paradedb
+    - pgvector
+    - pg_search
+    - database
+    - sql
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: paradedb
+    sources:
+    - https://github.com/paradedb/paradedb
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/paradedb-1.0.1/paradedb-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: latest-pg17
     created: "2026-03-12T11:06:56.233715521Z"
     description: ParadeDB Helm chart for Kubernetes — PostgreSQL with pgvector and
       pg_search, as required by LobeHub
@@ -1159,4 +1183,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-21T17:26:40.236005405Z"
+generated: "2026-04-27T14:22:07.083518621Z"
