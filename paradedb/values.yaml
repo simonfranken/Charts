@@ -16,6 +16,9 @@ fullnameOverride: ""
 postgresql:
   # Database name (will be created on first start)
   database: "lobechat"
+  # PostgreSQL data directory inside the mounted volume.
+  # Must be a subdirectory of the mount point to avoid lost+found issues.
+  pgData: "/var/lib/postgresql/data/pgdata"
   # Name of an existing Secret containing the database credentials.
   # The secret must contain keys: username, password
   # Create with: kubectl create secret generic paradedb-creds \

@@ -46,7 +46,7 @@ spec:
               protocol: TCP
           env:
             - name: PGDATA
-              value: /var/lib/postgresql/data
+              value: {{ .Values.postgresql.pgData | quote }}
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -71,6 +71,7 @@ spec:
             {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: /var/lib/postgresql/data
+              subPath: data
             {{- end }}
             {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
             - name: tmp
