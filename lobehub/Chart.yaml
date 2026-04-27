@@ -2,7 +2,7 @@ apiVersion: v2
 name: lobehub
 description: LobeHub - Open-source AI chat platform with knowledge base, multimodal AI, and plugin support
 type: application
-version: 1.3.4
+version: 1.3.5
 appVersion: "latest"
 home: https://lobehub.com
 sources:
@@ -17,7 +17,7 @@ keywords:
   - nextjs
 dependencies:
   - name: paradedb
-    version: "1.0.0"
+    version: "1.0.1"
     repository: "https://simonfranken.github.io/Charts"
     condition: paradedb.enabled
   - name: rustfs
