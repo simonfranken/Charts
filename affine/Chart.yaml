@@ -2,7 +2,7 @@ apiVersion: v2
 name: affine
 description: AFFiNE - Open-source workspace for docs, whiteboards, and knowledge
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "stable"
 home: https://affine.pro
 sources:
@@ -17,7 +17,7 @@ keywords:
   - knowledge-base
 dependencies:
   - name: paradedb
-    version: "1.0.0"
+    version: "1.0.2"
     repository: "https://simonfranken.github.io/Charts"
     condition: paradedb.enabled
   - name: redis
