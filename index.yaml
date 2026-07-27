@@ -1262,6 +1262,30 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/rustfs-1.0.0/rustfs-1.0.0.tgz
     version: 1.0.0
+  searxng:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-07-27T10:00:39.439453054Z"
+    description: SearXNG Helm chart for Kubernetes — Privacy-respecting, hackable
+      metasearch engine
+    digest: 8b22275b438e688b9835cd406e2314ff95d889a9b08739ccfdcddde7b5bf8a84
+    home: https://searxng.org
+    keywords:
+    - search
+    - metasearch
+    - searxng
+    - privacy
+    - ai
+    maintainers:
+    - email: mail@simon-franken.de
+      name: Simon Franken
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    type: application
+    urls:
+    - https://github.com/simonfranken/Charts/releases/download/searxng-1.0.0/searxng-1.0.0.tgz
+    version: 1.0.0
   tailscale-subnet-router:
   - apiVersion: v2
     appVersion: latest
@@ -1299,4 +1323,4 @@ entries:
     urls:
     - https://github.com/simonfranken/Charts/releases/download/tailscale-subnet-router-0.1.0/tailscale-subnet-router-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-27T14:35:16.203799739Z"
+generated: "2026-07-27T10:00:39.439553852Z"
