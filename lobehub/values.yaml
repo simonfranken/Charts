@@ -123,6 +123,10 @@ config:
   ## Assistant market index URL override (optional)
   agentsIndexUrl: ""
 
+  ## SearXNG URL for AI web search (optional — used when searxng.enabled=false)
+  ## Example: "http://searxng.example.com:8080"
+  searxngUrl: ""
+
 ## ── Database (PostgreSQL with pgvector + pg_search) ──────────────────
 ## Option A: Use the bundled ParadeDB sub-chart (set paradedb.enabled=true).
 ##   DATABASE_URL is constructed automatically — do not set database.url.
@@ -340,3 +344,14 @@ rustfs:
     size: 10Gi
     accessModes:
       - ReadWriteOnce
+
+## ──────────────────────────────────────────────
+## SearXNG sub-chart (Metasearch engine for AI Web Search)
+## Set enabled=true to deploy SearXNG alongside LobeHub.
+## SEARXNG_URL will be auto-injected.
+## When enabled, config.searxngUrl is ignored.
+## ──────────────────────────────────────────────
+searxng:
+  enabled: false
+  service:
+    port: 8080

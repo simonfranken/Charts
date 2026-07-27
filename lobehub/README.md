@@ -99,6 +99,7 @@ console.log(JSON.stringify({
 | `config.pluginsIndexUrl` | Custom plugin market index URL | `""` |
 | `config.pluginSettings` | Plugin settings string, e.g. `search-engine:SERPAPI_API_KEY=xxxxx` | `""` |
 | `config.agentsIndexUrl` | Custom assistant market index URL | `""` |
+| `config.searxngUrl` | Custom SearXNG URL for AI web search (when `searxng.enabled=false`) | `""` |
 
 ### Database
 
@@ -130,6 +131,15 @@ Works with AWS S3, Cloudflare R2, MinIO, RustFS, or any S3-compatible service.
 | `s3.llmVisionImageUseBase64` | Convert images to base64 before sending to LLM (required when S3 is on plain HTTP) | `"1"` |
 | `secrets.s3AccessKeyId` | S3 access key ID — stored in Secret | `""` |
 | `secrets.s3SecretAccessKey` | S3 secret access key — stored in Secret | `""` |
+
+### SearXNG sub-chart (optional)
+
+Set `searxng.enabled=true` to deploy SearXNG alongside LobeHub for web search.
+
+| Parameter | Description | Default |
+|---|---|---|
+| `searxng.enabled` | Deploy bundled SearXNG sub-chart | `false` |
+| `searxng.service.port` | SearXNG service port | `8080` |
 
 ### Authentication (Better Auth)
 

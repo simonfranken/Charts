@@ -46,6 +46,9 @@ data:
   {{- if .Values.config.agentsIndexUrl }}
   AGENTS_INDEX_URL: {{ .Values.config.agentsIndexUrl | quote }}
   {{- end }}
+  {{- if and (not .Values.searxng.enabled) .Values.config.searxngUrl }}
+  SEARXNG_URL: {{ .Values.config.searxngUrl | quote }}
+  {{- end }}
 
   ## ── S3 / Object Storage ─────────────────────────────────────────────
   {{- if .Values.s3.enabled }}
