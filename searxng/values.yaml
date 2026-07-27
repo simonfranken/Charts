@@ -1,0 +1,90 @@
+# Default values for searxng chart
+
+image:
+  repository: searxng/searxng
+  pullPolicy: IfNotPresent
+  # Overrides the image tag. Defaults to the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+## Service configuration
+service:
+  type: ClusterIP
+  port: 8080
+
+## Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: searxng.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+## Resource requests and limits
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1
+    memory: 512Mi
+
+## Pod security context
+securityContext:
+  enabled: false
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+## SearXNG Secret settings
+secret:
+  ## Secret key for session encryption.
+  ## Auto-generated if left empty.
+  secretKey: ""
+  ## Name of an existing Secret containing 'secretKey' key
+  existingSecret: ""
+
+## SearXNG configuration settings (settings.yml)
+settings:
+  instanceName: "SearXNG"
+  autocomplete: ""
+  safeSearch: 0
+  defaultLang: "auto"
+  limiter: false
+  publicInstance: false
+  imageProxy: false
+  formats:
+    - html
+    - json
+  ## Custom settings YAML string override (when provided, completely replaces generated settings.yml)
+  customSettings: ""
+
+## Probes
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

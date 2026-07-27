@@ -1,0 +1,18 @@
+apiVersion: v2
+name: searxng
+description: SearXNG Helm chart for Kubernetes — Privacy-respecting, hackable metasearch engine
+type: application
+version: 1.0.0
+appVersion: "latest"
+keywords:
+  - search
+  - metasearch
+  - searxng
+  - privacy
+  - ai
+home: https://searxng.org
+sources:
+  - https://github.com/searxng/searxng
+maintainers:
+  - name: Simon Franken
+    email: mail@simon-franken.de
