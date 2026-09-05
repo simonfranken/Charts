@@ -35,3 +35,27 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+
+{{/*
+Gateway fullname.
+*/}}
+{{- define "lobehub.gateway.fullname" -}}
+{{- printf "%s-gateway" (include "lobehub.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Gateway selector labels — extends the app's selector labels with a
+component label so its Service only ever picks up gateway pods.
+*/}}
+{{- define "lobehub.gateway.selectorLabels" -}}
+{{- include "lobehub.selectorLabels" . }}
+app.kubernetes.io/component: gateway
+{{- end }}
+
+{{/*
+Gateway common labels.
+*/}}
+{{- define "lobehub.gateway.labels" -}}
+{{- include "lobehub.labels" . }}
+app.kubernetes.io/component: gateway
+{{- end }}

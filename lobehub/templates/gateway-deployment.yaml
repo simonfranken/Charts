@@ -1,0 +1,46 @@
+{{- if .Values.lobehubGateway.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lobehub.gateway.fullname" . }}
+  labels:
+    {{- include "lobehub.gateway.labels" . | nindent 4 }}
+spec:
+  # Single-instance by design — the gateway keeps all state in memory and
+  # has no distributed session coordination, so this is intentionally not
+  # a values-driven replicaCount.
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "lobehub.gateway.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "lobehub.gateway.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: lobehub-gateway
+          image: "{{ .Values.lobehubGateway.image.repository }}:{{ .Values.lobehubGateway.image.tag }}"
+          imagePullPolicy: {{ .Values.lobehubGateway.image.pullPolicy }}
+          ports:
+            - name: device
+              containerPort: {{ .Values.lobehubGateway.service.devicePort }}
+              protocol: TCP
+            - name: agent
+              containerPort: {{ .Values.lobehubGateway.service.agentPort }}
+              protocol: TCP
+          env:
+            - name: DEVICE_PORT
+              value: {{ .Values.lobehubGateway.service.devicePort | quote }}
+            - name: AGENT_PORT
+              value: {{ .Values.lobehubGateway.service.agentPort | quote }}
+            {{- range $key, $val := .Values.lobehubGateway.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.lobehubGateway.secrets.existingSecret | default (include "lobehub.gateway.fullname" .) }}
+          resources:
+            {{- toYaml .Values.lobehubGateway.resources | nindent 12 }}
+{{- end }}

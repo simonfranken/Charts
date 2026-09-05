@@ -1,0 +1,21 @@
+{{- if .Values.lobehubGateway.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lobehub.gateway.fullname" . }}
+  labels:
+    {{- include "lobehub.gateway.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.lobehubGateway.service.devicePort }}
+      targetPort: device
+      protocol: TCP
+      name: device
+    - port: {{ .Values.lobehubGateway.service.agentPort }}
+      targetPort: agent
+      protocol: TCP
+      name: agent
+  selector:
+    {{- include "lobehub.gateway.selectorLabels" . | nindent 4 }}
+{{- end }}

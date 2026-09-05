@@ -141,6 +141,54 @@ Set `searxng.enabled=true` to deploy SearXNG alongside LobeHub for web search.
 | `searxng.enabled` | Deploy bundled SearXNG sub-chart | `false` |
 | `searxng.service.port` | SearXNG service port | `8080` |
 
+### LobeHub Gateway (optional)
+
+Runs [`lobehub/lobehub-gateway`](https://github.com/lobehub/lobehub-gateway)'s unified binary (`device-gateway-go` + `agent-gateway-go` in one process) as a second Deployment in this chart, for connecting the CLI, desktop app, and other devices. Not yet documented on lobehub.com — the device gateway lives in a separate repo from the main LobeHub self-hosting docs. It's single-instance by design (in-memory state, no distributed session coordination) — fine for a homelab, not for HA.
+
+Set `lobehubGateway.enabled=true` to deploy it. When enabled, `DEVICE_GATEWAY_URL` (from `lobehubGateway.publicUrl`) and `DEVICE_GATEWAY_SERVICE_TOKEN` are injected into the main LobeHub container automatically.
+
+```yaml
+lobehubGateway:
+  enabled: true
+  publicUrl: "https://gateway.lobehub.example.com"
+  secrets:
+    serviceToken: "<random token>"
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      # Required behind nginx: devices must authenticate within 10s and
+      # heartbeat at least every 90s, so the proxy's read/send timeouts
+      # must not be more aggressive than that. Caddy's plain reverse_proxy
+      # doesn't need these annotations at all.
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    hosts:
+      - host: gateway.lobehub.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: lobehub-gateway-tls
+        hosts:
+          - gateway.lobehub.example.com
+```
+
+| Parameter | Description | Default |
+|---|---|---|
+| `lobehubGateway.enabled` | Deploy the gateway alongside LobeHub | `false` |
+| `lobehubGateway.image.repository` | Container image | `ghcr.io/lobehub/lobehub-gateway` |
+| `lobehubGateway.image.tag` | Image tag | `latest` |
+| `lobehubGateway.publicUrl` | Public URL devices/CLI/desktop use to reach the gateway; also injected into LobeHub as `DEVICE_GATEWAY_URL` — must be externally reachable | `""` |
+| `lobehubGateway.service.devicePort` | Device gateway port (`DEVICE_PORT`) | `8787` |
+| `lobehubGateway.service.agentPort` | Agent gateway port (`AGENT_PORT`), cluster-internal only — not exposed via Ingress | `8788` |
+| `lobehubGateway.ingress.*` | Ingress for the device port only, same shape as the top-level `ingress.*` | see `values.yaml` |
+| `lobehubGateway.secrets.existingSecret` | Name of a pre-existing Secret with `SERVICE_TOKEN` (required) and optionally `JWKS_PUBLIC_KEY` | `""` |
+| `lobehubGateway.secrets.serviceToken` | Required — the gateway refuses to start without it | `""` |
+| `lobehubGateway.secrets.jwksPublicKey` | RS256 public-key JWKS JSON for WebSocket JWT verification. Optional — its relationship to `secrets.jwksKey` above is not yet confirmed upstream, so it isn't derived automatically; leave empty to skip JWT verification | `""` |
+| `lobehubGateway.extraEnv` | Additional environment variables for the gateway container | `{}` |
+
 ### Authentication (Better Auth)
 
 | Parameter | Description | Default |

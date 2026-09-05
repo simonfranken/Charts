@@ -33,7 +33,7 @@ spec:
                 name: {{ include "lobehub.fullname" . }}
             - secretRef:
                 name: {{ .Values.secrets.existingSecret | default (include "lobehub.fullname" .) }}
-          {{- if or .Values.paradedb.enabled .Values.rustfs.enabled .Values.searxng.enabled }}
+          {{- if or .Values.paradedb.enabled .Values.rustfs.enabled .Values.searxng.enabled .Values.lobehubGateway.enabled }}
           env:
             {{- if .Values.paradedb.enabled }}
             - name: _DB_USER
@@ -74,6 +74,13 @@ spec:
             {{- if .Values.searxng.enabled }}
             - name: SEARXNG_URL
               value: {{ printf "http://%s-searxng:%v" .Release.Name (index .Values "searxng" "service" "port" | default 8080) | quote }}
+            {{- end }}
+            {{- if .Values.lobehubGateway.enabled }}
+            - name: DEVICE_GATEWAY_SERVICE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.lobehubGateway.secrets.existingSecret | default (include "lobehub.gateway.fullname" .) }}
+                  key: SERVICE_TOKEN
             {{- end }}
           {{- end }}
           livenessProbe:

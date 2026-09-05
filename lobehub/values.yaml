@@ -355,3 +355,61 @@ searxng:
   enabled: false
   service:
     port: 8080
+
+## ──────────────────────────────────────────────
+## LobeHub Gateway (device + agent gateway, self-hosted)
+## Runs lobehub/lobehub-gateway's unified binary (device-gateway-go +
+## agent-gateway-go in one process) as a second Deployment in this chart.
+## DEVICE_GATEWAY_URL / DEVICE_GATEWAY_SERVICE_TOKEN are wired into the
+## main LobeHub container automatically when enabled.
+## ──────────────────────────────────────────────
+lobehubGateway:
+  enabled: false
+
+  image:
+    repository: ghcr.io/lobehub/lobehub-gateway
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+  ## Public URL devices/CLI/desktop use to reach the gateway; also injected
+  ## into LobeHub as DEVICE_GATEWAY_URL. Must be externally reachable.
+  publicUrl: ""
+
+  service:
+    devicePort: 8787
+    agentPort: 8788
+
+  ## Ingress fronts the device port only — the agent port stays cluster-internal.
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: gateway.lobehub.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+
+  resources:
+    requests:
+      cpu: 5m
+      memory: 32Mi
+    limits:
+      cpu: 250m
+      memory: 128Mi
+
+  ## Sensitive credentials for the gateway (kept in its own Secret).
+  secrets:
+    ## Name of a pre-existing Secret with keys SERVICE_TOKEN (required) and
+    ## optionally JWKS_PUBLIC_KEY. When set, the chart will NOT create its
+    ## own Secret for the gateway.
+    existingSecret: ""
+    ## Required — the gateway refuses to start without it.
+    serviceToken: ""
+    ## JWKS JSON containing an RS256 PUBLIC key, used to verify JWTs for
+    ## WebSocket device auth. Optional — leave empty to skip JWT verification.
+    jwksPublicKey: ""
+
+  ## Additional environment variables for the gateway container (key: value map)
+  extraEnv: {}
