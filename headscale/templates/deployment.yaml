@@ -6,6 +6,12 @@ metadata:
     {{- include "headscale.labels" . | nindent 4 }}
 spec:
   replicas: 1
+  strategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
+    {{- if eq .Values.strategy.type "Recreate" }}
+    # Drops the defaulted rollingUpdate from existing deployments, which Recreate rejects.
+    rollingUpdate: null
+    {{- end }}
   selector:
     matchLabels:
       {{- include "headscale.selectorLabels" . | nindent 6 }}

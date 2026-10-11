@@ -6,6 +6,10 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
+# Recreate: the RWO volumes can't be attached to a second pod on another node during a rolling update
+strategy:
+  type: Recreate
+
 podAnnotations: {}
 podLabels: {}
 
